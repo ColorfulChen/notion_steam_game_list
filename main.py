@@ -10,7 +10,7 @@ NOTION_DATABASE_API_KEY = os.environ.get("NOTION_DATABASE_API_KEY")
 NOTION_DATABASE_ID = "079b0dbfdf9049ab8e2373532babcc94"
 # OPTIONAL
 include_played_free_games = True
-enable_item_update = False
+enable_item_update = True
 
 MAX_RETRIES = 20  
 RETRY_DELAY = 2  # 等待2秒后再重试  
@@ -25,18 +25,15 @@ def send_request_with_retry(url, headers=None, json_data=None, retries=MAX_RETRI
 
             response.raise_for_status()  # 如果响应状态码不是200系列，则抛出HTTPError异常  
             return response  
-        except SSLError as e:  
-            print(f"SSL Error occurred: {e}. Retrying...")  
+        except requests.exceptions.RequestException as e:  
+            print(f"Request Exception occurred: {e}. retring")
             retries -= 1  
             if retries > 0:  
                 time.sleep(RETRY_DELAY)  # 等待一段时间后再重试  
             else:  
                 print("Max retries exceeded. Giving up.")  
-                raise  # 可选：如果达到最大重试次数，可以选择重新抛出异常  
-        except requests.exceptions.RequestException as e:  
-            # 这里也可以捕获其他类型的请求异常，如ConnectionError, Timeout等  
-            print(f"Request Exception occurred: {e}. Skipping retry for this type of error.")  
-            raise  # 对于非SSL错误，你可能不想重试，直接抛出异常 
+                raise 
+            raise
 
 
 def get_owned_game_data_from_steam():
