@@ -1,0 +1,7 @@
+{
+    "object": "error",
+    "status": 400,
+    "code": "validation_error",
+    "message": 'body failed validation. Fix one:\nbody.properties.playtime.title should be defined, instead was `undefined`.\nbody.properties.playtime.rich_text should be defined, instead was `undefined`.\nbody.properties.playtime.number should be a number or `null`, instead was `"0.7"`.\nbody.properties.playtime.url should be defined, instead was `undefined`.\nbody.properties.playtime.select should be defined, instead was `undefined`.\nbody.properties.playtime.multi_select should be defined, instead was `undefined`.\nbody.properties.playtime.people should be defined, instead was `undefined`.\nbody.properties.playtime.email should be defined, instead was `undefined`.\nbody.properties.playtime.phone_number should be defined, instead was `undefined`.\nbody.properties.playtime.date should be defined, instead was `undefined`.\nbody.properties.playtime.checkbox should be defined, instead was `undefined`.\nbody.properties.playtime.relation should be defined, instead was `undefined`.\nbody.properties.playtime.files should be defined, instead was `undefined`.\nbody.properties.playtime.status should be defined, instead was `undefined`.\nbody.properties.name.id should be defined, instead was `undefined`.\nbody.properties.name.name should be defined, instead was `undefined`.\nbody.properties.name.start should be defined, instead was `undefined`.',
+    "request_id": "f61a643f-3ddf-451c-a9b9-536541e41a7f",
+}
