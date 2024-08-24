@@ -1,0 +1,1262 @@
+{
+    "apilist": {
+        "interfaces": [
+            {
+                "name": "IClientStats_1046930",
+                "methods": [
+                    {
+                        "name": "ReportEvent",
+                        "version": 1,
+                        "httpmethod": "POST",
+                        "parameters": []
+                    }
+                ]
+            },
+            {
+                "name": "IGCVersion_1046930",
+                "methods": [
+                    {
+                        "name": "GetClientVersion",
+                        "version": 1,
+                        "httpmethod": "GET",
+                        "parameters": []
+                    },
+                    {
+                        "name": "GetServerVersion",
+                        "version": 1,
+                        "httpmethod": "GET",
+                        "parameters": []
+                    }
+                ]
+            },
+            {
+                "name": "IGCVersion_1269260",
+                "methods": [
+                    {
+                        "name": "GetClientVersion",
+                        "version": 1,
+                        "httpmethod": "GET",
+                        "parameters": []
+                    },
+                    {
+                        "name": "GetServerVersion",
+                        "version": 1,
+                        "httpmethod": "GET",
+                        "parameters": []
+                    }
+                ]
+            },
+            {
+                "name": "IGCVersion_1422450",
+                "methods": [
+                    {
+                        "name": "GetClientVersion",
+                        "version": 1,
+                        "httpmethod": "GET",
+                        "parameters": []
+                    },
+                    {
+                        "name": "GetServerVersion",
+                        "version": 1,
+                        "httpmethod": "GET",
+                        "parameters": []
+                    }
+                ]
+            },
+            {
+                "name": "IGCVersion_440",
+                "methods": [
+                    {
+                        "name": "GetClientVersion",
+                        "version": 1,
+                        "httpmethod": "GET",
+                        "parameters": []
+                    },
+                    {
+                        "name": "GetServerVersion",
+                        "version": 1,
+                        "httpmethod": "GET",
+                        "parameters": []
+                    }
+                ]
+            },
+            {
+                "name": "IGCVersion_570",
+                "methods": [
+                    {
+                        "name": "GetClientVersion",
+                        "version": 1,
+                        "httpmethod": "GET",
+                        "parameters": []
+                    },
+                    {
+                        "name": "GetServerVersion",
+                        "version": 1,
+                        "httpmethod": "GET",
+                        "parameters": []
+                    }
+                ]
+            },
+            {
+                "name": "IGCVersion_583950",
+                "methods": [
+                    {
+                        "name": "GetClientVersion",
+                        "version": 1,
+                        "httpmethod": "GET",
+                        "parameters": []
+                    },
+                    {
+                        "name": "GetServerVersion",
+                        "version": 1,
+                        "httpmethod": "GET",
+                        "parameters": []
+                    }
+                ]
+            },
+            {
+                "name": "IGCVersion_730",
+                "methods": [
+                    {
+                        "name": "GetServerVersion",
+                        "version": 1,
+                        "httpmethod": "GET",
+                        "parameters": []
+                    }
+                ]
+            },
+            {
+                "name": "IPortal2Leaderboards_620",
+                "methods": [
+                    {
+                        "name": "GetBucketizedData",
+                        "version": 1,
+                        "httpmethod": "GET",
+                        "parameters": [
+                            {
+                                "name": "leaderboardName",
+                                "type": "string",
+                                "optional": false,
+                                "description": "The leaderboard name to fetch data for."
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "name": "ISteamApps",
+                "methods": [
+                    {
+                        "name": "GetAppList",
+                        "version": 1,
+                        "httpmethod": "GET",
+                        "parameters": []
+                    },
+                    {
+                        "name": "GetAppList",
+                        "version": 2,
+                        "httpmethod": "GET",
+                        "parameters": []
+                    },
+                    {
+                        "name": "GetSDRConfig",
+                        "version": 1,
+                        "httpmethod": "GET",
+                        "parameters": [
+                            {
+                                "name": "appid",
+                                "type": "uint32",
+                                "optional": false,
+                                "description": "AppID of game"
+                            }
+                        ]
+                    },
+                    {
+                        "name": "GetServersAtAddress",
+                        "version": 1,
+                        "httpmethod": "GET",
+                        "parameters": [
+                            {
+                                "name": "addr",
+                                "type": "string",
+                                "optional": false,
+                                "description": "IP or IP:queryport to list"
+                            }
+                        ]
+                    },
+                    {
+                        "name": "UpToDateCheck",
+                        "version": 1,
+                        "httpmethod": "GET",
+                        "parameters": [
+                            {
+                                "name": "appid",
+                                "type": "uint32",
+                                "optional": false,
+                                "description": "AppID of game"
+                            },
+                            {
+                                "name": "version",
+                                "type": "uint32",
+                                "optional": false,
+                                "description": "The installed version of the game"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "name": "ISteamBroadcast",
+                "methods": [
+                    {
+                        "name": "ViewerHeartbeat",
+                        "version": 1,
+                        "httpmethod": "GET",
+                        "parameters": [
+                            {
+                                "name": "steamid",
+                                "type": "uint64",
+                                "optional": false,
+                                "description": "Steam ID of the broadcaster"
+                            },
+                            {
+                                "name": "sessionid",
+                                "type": "uint64",
+                                "optional": false,
+                                "description": "Broadcast Session ID"
+                            },
+                            {
+                                "name": "token",
+                                "type": "uint64",
+                                "optional": false,
+                                "description": "Viewer token"
+                            },
+                            {
+                                "name": "stream",
+                                "type": "int32",
+                                "optional": true,
+                                "description": "video stream representation watching"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "name": "ISteamDirectory",
+                "methods": [
+                    {
+                        "name": "GetCMList",
+                        "version": 1,
+                        "httpmethod": "GET",
+                        "parameters": [
+                            {
+                                "name": "cellid",
+                                "type": "uint32",
+                                "optional": false,
+                                "description": "Client's Steam cell ID"
+                            },
+                            {
+                                "name": "maxcount",
+                                "type": "uint32",
+                                "optional": true,
+                                "description": "Max number of servers to return"
+                            }
+                        ]
+                    },
+                    {
+                        "name": "GetCMListForConnect",
+                        "version": 1,
+                        "httpmethod": "GET",
+                        "parameters": [
+                            {
+                                "name": "cellid",
+                                "type": "uint32",
+                                "optional": true,
+                                "description": "Client's Steam cell ID, uses IP location if blank"
+                            },
+                            {
+                                "name": "cmtype",
+                                "type": "string",
+                                "optional": true,
+                                "description": "Optional CM type filter"
+                            },
+                            {
+                                "name": "realm",
+                                "type": "string",
+                                "optional": true,
+                                "description": "Optional Steam Realm filter"
+                            },
+                            {
+                                "name": "maxcount",
+                                "type": "uint32",
+                                "optional": true,
+                                "description": "Max number of servers to return"
+                            }
+                        ]
+                    },
+                    {
+                        "name": "GetSteamPipeDomains",
+                        "version": 1,
+                        "httpmethod": "GET",
+                        "parameters": []
+                    }
+                ]
+            },
+            {
+                "name": "ISteamNews",
+                "methods": [
+                    {
+                        "name": "GetNewsForApp",
+                        "version": 1,
+                        "httpmethod": "GET",
+                        "parameters": [
+                            {
+                                "name": "appid",
+                                "type": "uint32",
+                                "optional": false,
+                                "description": "AppID to retrieve news for"
+                            },
+                            {
+                                "name": "maxlength",
+                                "type": "uint32",
+                                "optional": true,
+                                "description": "Maximum length for the content to return, if this is 0 the full content is returned, if it's less then a blurb is generated to fit."
+                            },
+                            {
+                                "name": "enddate",
+                                "type": "uint32",
+                                "optional": true,
+                                "description": "Retrieve posts earlier than this date (unix epoch timestamp)"
+                            },
+                            {
+                                "name": "count",
+                                "type": "uint32",
+                                "optional": true,
+                                "description": "# of posts to retrieve (default 20)"
+                            },
+                            {
+                                "name": "tags",
+                                "type": "string",
+                                "optional": true,
+                                "description": "Comma-separated list of tags to filter by (e.g. 'patchnodes')"
+                            }
+                        ]
+                    },
+                    {
+                        "name": "GetNewsForApp",
+                        "version": 2,
+                        "httpmethod": "GET",
+                        "parameters": [
+                            {
+                                "name": "appid",
+                                "type": "uint32",
+                                "optional": false,
+                                "description": "AppID to retrieve news for"
+                            },
+                            {
+                                "name": "maxlength",
+                                "type": "uint32",
+                                "optional": true,
+                                "description": "Maximum length for the content to return, if this is 0 the full content is returned, if it's less then a blurb is generated to fit."
+                            },
+                            {
+                                "name": "enddate",
+                                "type": "uint32",
+                                "optional": true,
+                                "description": "Retrieve posts earlier than this date (unix epoch timestamp)"
+                            },
+                            {
+                                "name": "count",
+                                "type": "uint32",
+                                "optional": true,
+                                "description": "# of posts to retrieve (default 20)"
+                            },
+                            {
+                                "name": "feeds",
+                                "type": "string",
+                                "optional": true,
+                                "description": "Comma-separated list of feed names to return news for"
+                            },
+                            {
+                                "name": "tags",
+                                "type": "string",
+                                "optional": true,
+                                "description": "Comma-separated list of tags to filter by (e.g. 'patchnodes')"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "name": "ISteamRemoteStorage",
+                "methods": [
+                    {
+                        "name": "GetCollectionDetails",
+                        "version": 1,
+                        "httpmethod": "POST",
+                        "parameters": [
+                            {
+                                "name": "collectioncount",
+                                "type": "uint32",
+                                "optional": false,
+                                "description": "Number of collections being requested"
+                            },
+                            {
+                                "name": "publishedfileids[0]",
+                                "type": "uint64",
+                                "optional": false,
+                                "description": "collection ids to get the details for"
+                            }
+                        ]
+                    },
+                    {
+                        "name": "GetPublishedFileDetails",
+                        "version": 1,
+                        "httpmethod": "POST",
+                        "parameters": [
+                            {
+                                "name": "itemcount",
+                                "type": "uint32",
+                                "optional": false,
+                                "description": "Number of items being requested"
+                            },
+                            {
+                                "name": "publishedfileids[0]",
+                                "type": "uint64",
+                                "optional": false,
+                                "description": "published file id to look up"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "name": "ISteamUserOAuth",
+                "methods": [
+                    {
+                        "name": "GetTokenDetails",
+                        "version": 1,
+                        "httpmethod": "GET",
+                        "parameters": [
+                            {
+                                "name": "access_token",
+                                "type": "string",
+                                "optional": false,
+                                "description": "OAuth2 token for which to return details"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "name": "ISteamUserStats",
+                "methods": [
+                    {
+                        "name": "GetGlobalAchievementPercentagesForApp",
+                        "version": 1,
+                        "httpmethod": "GET",
+                        "parameters": [
+                            {
+                                "name": "gameid",
+                                "type": "uint64",
+                                "optional": false,
+                                "description": "GameID to retrieve the achievement percentages for"
+                            }
+                        ]
+                    },
+                    {
+                        "name": "GetGlobalAchievementPercentagesForApp",
+                        "version": 2,
+                        "httpmethod": "GET",
+                        "parameters": [
+                            {
+                                "name": "gameid",
+                                "type": "uint64",
+                                "optional": false,
+                                "description": "GameID to retrieve the achievement percentages for"
+                            }
+                        ]
+                    },
+                    {
+                        "name": "GetGlobalStatsForGame",
+                        "version": 1,
+                        "httpmethod": "GET",
+                        "parameters": [
+                            {
+                                "name": "appid",
+                                "type": "uint32",
+                                "optional": false,
+                                "description": "AppID that we're getting global stats for"
+                            },
+                            {
+                                "name": "count",
+                                "type": "uint32",
+                                "optional": false,
+                                "description": "Number of stats get data for"
+                            },
+                            {
+                                "name": "name[0]",
+                                "type": "string",
+                                "optional": false,
+                                "description": "Names of stat to get data for"
+                            },
+                            {
+                                "name": "startdate",
+                                "type": "uint32",
+                                "optional": true,
+                                "description": "Start date for daily totals (unix epoch timestamp)"
+                            },
+                            {
+                                "name": "enddate",
+                                "type": "uint32",
+                                "optional": true,
+                                "description": "End date for daily totals (unix epoch timestamp)"
+                            }
+                        ]
+                    },
+                    {
+                        "name": "GetNumberOfCurrentPlayers",
+                        "version": 1,
+                        "httpmethod": "GET",
+                        "parameters": [
+                            {
+                                "name": "appid",
+                                "type": "uint32",
+                                "optional": false,
+                                "description": "AppID that we're getting user count for"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "name": "ISteamWebAPIUtil",
+                "methods": [
+                    {
+                        "name": "GetServerInfo",
+                        "version": 1,
+                        "httpmethod": "GET",
+                        "parameters": []
+                    },
+                    {
+                        "name": "GetSupportedAPIList",
+                        "version": 1,
+                        "httpmethod": "GET",
+                        "parameters": [
+                            {
+                                "name": "key",
+                                "type": "string",
+                                "optional": true,
+                                "description": "access key"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "name": "ITFSystem_440",
+                "methods": [
+                    {
+                        "name": "GetWorldStatus",
+                        "version": 1,
+                        "httpmethod": "GET",
+                        "parameters": []
+                    }
+                ]
+            },
+            {
+                "name": "IAuthenticationService",
+                "methods": [
+                    {
+                        "name": "PollAuthSessionStatus",
+                        "version": 1,
+                        "httpmethod": "POST",
+                        "description": "poll during authentication process",
+                        "parameters": [
+                            {
+                                "name": "client_id",
+                                "type": "uint64",
+                                "optional": false
+                            },
+                            {
+                                "name": "request_id",
+                                "type": "string",
+                                "optional": false
+                            },
+                            {
+                                "name": "token_to_revoke",
+                                "type": "uint64",
+                                "optional": false,
+                                "description": "If this is set to a token owned by this user, that token will be retired"
+                            }
+                        ]
+                    },
+                    {
+                        "name": "GetAuthSessionInfo",
+                        "version": 1,
+                        "httpmethod": "POST",
+                        "description": "get metadata of specific auth session, this will also implicitly bind the calling account",
+                        "parameters": [
+                            {
+                                "name": "client_id",
+                                "type": "uint64",
+                                "optional": false,
+                                "description": "client ID from scanned QR Code, used for routing"
+                            }
+                        ]
+                    },
+                    {
+                        "name": "GetPasswordRSAPublicKey",
+                        "version": 1,
+                        "httpmethod": "GET",
+                        "description": "Fetches RSA public key to use to encrypt passwords for a given account name",
+                        "parameters": [
+                            {
+                                "name": "account_name",
+                                "type": "string",
+                                "optional": false,
+                                "description": "user-provided account name to get an RSA key for"
+                            }
+                        ]
+                    },
+                    {
+                        "name": "BeginAuthSessionViaCredentials",
+                        "version": 1,
+                        "httpmethod": "POST",
+                        "description": "start authentication process",
+                        "parameters": [
+                            {
+                                "name": "device_friendly_name",
+                                "type": "string",
+                                "optional": false
+                            },
+                            {
+                                "name": "account_name",
+                                "type": "string",
+                                "optional": false
+                            },
+                            {
+                                "name": "encrypted_password",
+                                "type": "string",
+                                "optional": false,
+                                "description": "password, RSA encrypted client side"
+                            },
+                            {
+                                "name": "encryption_timestamp",
+                                "type": "uint64",
+                                "optional": false,
+                                "description": "timestamp to map to a key - STime"
+                            },
+                            {
+                                "name": "remember_login",
+                                "type": "bool",
+                                "optional": false,
+                                "description": "deprecated"
+                            },
+                            {
+                                "name": "platform_type",
+                                "type": "{enum}",
+                                "optional": false
+                            },
+                            {
+                                "name": "persistence",
+                                "type": "{enum}",
+                                "optional": true,
+                                "description": "whether we are requesting a persistent or an ephemeral session"
+                            },
+                            {
+                                "name": "website_id",
+                                "type": "string",
+                                "optional": true,
+                                "description": "(EMachineAuthWebDomain) identifier of client requesting auth"
+                            },
+                            {
+                                "name": "device_details",
+                                "type": "{message}",
+                                "optional": false,
+                                "description": "User-supplied details about the device attempting to sign in"
+                            },
+                            {
+                                "name": "guard_data",
+                                "type": "string",
+                                "optional": false,
+                                "description": "steam guard data for client login"
+                            },
+                            {
+                                "name": "language",
+                                "type": "uint32",
+                                "optional": false
+                            },
+                            {
+                                "name": "qos_level",
+                                "type": "int32",
+                                "optional": true,
+                                "description": "[ENetQOSLevel] client-specified priority for this auth attempt"
+                            }
+                        ]
+                    },
+                    {
+                        "name": "UpdateAuthSessionWithSteamGuardCode",
+                        "version": 1,
+                        "httpmethod": "POST",
+                        "description": "approve an authentication session via steam guard code",
+                        "parameters": [
+                            {
+                                "name": "client_id",
+                                "type": "uint64",
+                                "optional": false,
+                                "description": "pending client ID, from initialized session"
+                            },
+                            {
+                                "name": "steamid",
+                                "type": "uint64",
+                                "optional": false,
+                                "description": "user who wants to login"
+                            },
+                            {
+                                "name": "code",
+                                "type": "string",
+                                "optional": false,
+                                "description": "confirmation code"
+                            },
+                            {
+                                "name": "code_type",
+                                "type": "{enum}",
+                                "optional": false,
+                                "description": "type of confirmation code"
+                            }
+                        ]
+                    },
+                    {
+                        "name": "BeginAuthSessionViaQR",
+                        "version": 1,
+                        "httpmethod": "POST",
+                        "description": "start authentication process",
+                        "parameters": [
+                            {
+                                "name": "device_friendly_name",
+                                "type": "string",
+                                "optional": false
+                            },
+                            {
+                                "name": "platform_type",
+                                "type": "{enum}",
+                                "optional": false
+                            },
+                            {
+                                "name": "device_details",
+                                "type": "{message}",
+                                "optional": false,
+                                "description": "User-supplied details about the device attempting to sign in"
+                            },
+                            {
+                                "name": "website_id",
+                                "type": "string",
+                                "optional": true,
+                                "description": "(EMachineAuthWebDomain) identifier of client requesting auth"
+                            }
+                        ]
+                    },
+                    {
+                        "name": "UpdateAuthSessionWithMobileConfirmation",
+                        "version": 1,
+                        "httpmethod": "POST",
+                        "description": "approve an authentication session via mobile 2fa",
+                        "parameters": [
+                            {
+                                "name": "version",
+                                "type": "int32",
+                                "optional": false,
+                                "description": "version field"
+                            },
+                            {
+                                "name": "client_id",
+                                "type": "uint64",
+                                "optional": false,
+                                "description": "pending client ID, from scanned QR Code"
+                            },
+                            {
+                                "name": "steamid",
+                                "type": "uint64",
+                                "optional": false,
+                                "description": "user who wants to login"
+                            },
+                            {
+                                "name": "signature",
+                                "type": "string",
+                                "optional": false,
+                                "description": "HMAC digest over {version,client_id,steamid} via user's private key"
+                            },
+                            {
+                                "name": "confirm",
+                                "type": "bool",
+                                "optional": true,
+                                "description": "Whether to confirm the login (true) or deny the login (false)"
+                            },
+                            {
+                                "name": "persistence",
+                                "type": "{enum}",
+                                "optional": true,
+                                "description": "whether we are requesting a persistent or an ephemeral session"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "name": "IBroadcastService",
+                "methods": [
+                    {
+                        "name": "PostGameDataFrameRTMP",
+                        "version": 1,
+                        "httpmethod": "POST",
+                        "description": "Add a game meta data frame to broadcast from a client. Uses RTMP token for validation",
+                        "parameters": [
+                            {
+                                "name": "appid",
+                                "type": "uint32",
+                                "optional": false,
+                                "description": "AppID of the game being broadcasted"
+                            },
+                            {
+                                "name": "steamid",
+                                "type": "uint64",
+                                "optional": false,
+                                "description": "Broadcasters SteamID"
+                            },
+                            {
+                                "name": "rtmp_token",
+                                "type": "string",
+                                "optional": false,
+                                "description": "Valid RTMP token for the Broadcaster"
+                            },
+                            {
+                                "name": "frame_data",
+                                "type": "string",
+                                "optional": false,
+                                "description": "game data frame expressing current state of game (string, zipped, whatever)"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "name": "IContentServerDirectoryService",
+                "methods": [
+                    {
+                        "name": "GetCDNForVideo",
+                        "version": 1,
+                        "httpmethod": "GET",
+                        "parameters": [
+                            {
+                                "name": "property_type",
+                                "type": "int32",
+                                "optional": false,
+                                "description": "ECDNPropertyType"
+                            },
+                            {
+                                "name": "client_ip",
+                                "type": "string",
+                                "optional": false,
+                                "description": "client IP address"
+                            },
+                            {
+                                "name": "client_region",
+                                "type": "string",
+                                "optional": false,
+                                "description": "client region"
+                            }
+                        ]
+                    },
+                    {
+                        "name": "PickSingleContentServer",
+                        "version": 1,
+                        "httpmethod": "GET",
+                        "parameters": [
+                            {
+                                "name": "property_type",
+                                "type": "int32",
+                                "optional": false,
+                                "description": "ECDNPropertyType"
+                            },
+                            {
+                                "name": "cell_id",
+                                "type": "uint32",
+                                "optional": false,
+                                "description": "client Cell ID"
+                            },
+                            {
+                                "name": "client_ip",
+                                "type": "string",
+                                "optional": false,
+                                "description": "client IP address"
+                            }
+                        ]
+                    },
+                    {
+                        "name": "GetServersForSteamPipe",
+                        "version": 1,
+                        "httpmethod": "GET",
+                        "parameters": [
+                            {
+                                "name": "cell_id",
+                                "type": "uint32",
+                                "optional": false,
+                                "description": "client Cell ID"
+                            },
+                            {
+                                "name": "max_servers",
+                                "type": "uint32",
+                                "optional": true,
+                                "description": "max servers in response list"
+                            },
+                            {
+                                "name": "ip_override",
+                                "type": "string",
+                                "optional": true,
+                                "description": "client IP address"
+                            },
+                            {
+                                "name": "launcher_type",
+                                "type": "int32",
+                                "optional": true,
+                                "description": "launcher type"
+                            },
+                            {
+                                "name": "ipv6_public",
+                                "type": "string",
+                                "optional": true,
+                                "description": "client public ipv6 address if it knows it"
+                            },
+                            {
+                                "name": "current_connections",
+                                "type": "{message}",
+                                "optional": false,
+                                "description": "what sources is the client currently using"
+                            }
+                        ]
+                    },
+                    {
+                        "name": "GetClientUpdateHosts",
+                        "version": 1,
+                        "httpmethod": "GET",
+                        "parameters": [
+                            {
+                                "name": "cached_signature",
+                                "type": "string",
+                                "optional": false
+                            }
+                        ]
+                    },
+                    {
+                        "name": "GetDepotPatchInfo",
+                        "version": 1,
+                        "httpmethod": "GET",
+                        "parameters": [
+                            {
+                                "name": "appid",
+                                "type": "uint32",
+                                "optional": false
+                            },
+                            {
+                                "name": "depotid",
+                                "type": "uint32",
+                                "optional": false
+                            },
+                            {
+                                "name": "source_manifestid",
+                                "type": "uint64",
+                                "optional": false
+                            },
+                            {
+                                "name": "target_manifestid",
+                                "type": "uint64",
+                                "optional": false
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "name": "IPublishedFileService",
+                "methods": [
+                    {
+                        "name": "GetUserVoteSummary",
+                        "version": 1,
+                        "httpmethod": "GET",
+                        "description": "Get user vote summary",
+                        "parameters": [
+                            {
+                                "name": "publishedfileids",
+                                "type": "uint64",
+                                "optional": false
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "name": "IPlayerService",
+                "methods": [
+                    {
+                        "name": "RecordOfflinePlaytime",
+                        "version": 1,
+                        "httpmethod": "POST",
+                        "description": "Tracks playtime for a user when they are offline",
+                        "parameters": [
+                            {
+                                "name": "steamid",
+                                "type": "uint64",
+                                "optional": false
+                            },
+                            {
+                                "name": "ticket",
+                                "type": "string",
+                                "optional": false
+                            },
+                            {
+                                "name": "play_sessions",
+                                "type": "{message}",
+                                "optional": false
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "name": "IGameNotificationsService",
+                "methods": [
+                    {
+                        "name": "UserCreateSession",
+                        "version": 1,
+                        "httpmethod": "POST",
+                        "description": "Creates an async game session",
+                        "parameters": [
+                            {
+                                "name": "appid",
+                                "type": "uint32",
+                                "optional": false,
+                                "description": "The appid to create the session for."
+                            },
+                            {
+                                "name": "context",
+                                "type": "uint64",
+                                "optional": false,
+                                "description": "Game-specified context value the game can used to associate the session with some object on their backend."
+                            },
+                            {
+                                "name": "title",
+                                "type": "{message}",
+                                "optional": false,
+                                "description": "The title of the session to be displayed within each user's list of sessions."
+                            },
+                            {
+                                "name": "users",
+                                "type": "{message}",
+                                "optional": false,
+                                "description": "The initial state of all users in the session."
+                            },
+                            {
+                                "name": "steamid",
+                                "type": "uint64",
+                                "optional": false,
+                                "description": "(Optional) steamid to make the request on behalf of -- if specified, the user must be in the session and all users being added to the session must be friends with the user."
+                            }
+                        ]
+                    },
+                    {
+                        "name": "UserUpdateSession",
+                        "version": 1,
+                        "httpmethod": "POST",
+                        "description": "Updates an async game session",
+                        "parameters": [
+                            {
+                                "name": "sessionid",
+                                "type": "uint64",
+                                "optional": false,
+                                "description": "The sessionid to update."
+                            },
+                            {
+                                "name": "appid",
+                                "type": "uint32",
+                                "optional": false,
+                                "description": "The appid of the session to update."
+                            },
+                            {
+                                "name": "title",
+                                "type": "{message}",
+                                "optional": false,
+                                "description": "(Optional) The new title of the session.  If not specified, the title will not be changed."
+                            },
+                            {
+                                "name": "users",
+                                "type": "{message}",
+                                "optional": false,
+                                "description": "(Optional) A list of users whose state will be updated to reflect the given state. If the users are not already in the session, they will be added to it."
+                            },
+                            {
+                                "name": "steamid",
+                                "type": "uint64",
+                                "optional": false,
+                                "description": "(Optional) steamid to make the request on behalf of -- if specified, the user must be in the session and all users being added to the session must be friends with the user."
+                            }
+                        ]
+                    },
+                    {
+                        "name": "UserDeleteSession",
+                        "version": 1,
+                        "httpmethod": "POST",
+                        "description": "Deletes an async game session",
+                        "parameters": [
+                            {
+                                "name": "sessionid",
+                                "type": "uint64",
+                                "optional": false,
+                                "description": "The sessionid to delete."
+                            },
+                            {
+                                "name": "appid",
+                                "type": "uint32",
+                                "optional": false,
+                                "description": "The appid of the session to delete."
+                            },
+                            {
+                                "name": "steamid",
+                                "type": "uint64",
+                                "optional": false,
+                                "description": "(Optional) steamid to make the request on behalf of -- if specified, the user must be in the session."
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "name": "IWishlistService",
+                "methods": [
+                    {
+                        "name": "GetWishlistSortedFiltered",
+                        "version": 1,
+                        "httpmethod": "GET",
+                        "description": "Get a user's paginated wishlist applying various sorts and filters",
+                        "parameters": [
+                            {
+                                "name": "steamid",
+                                "type": "uint64",
+                                "optional": false
+                            },
+                            {
+                                "name": "context",
+                                "type": "{message}",
+                                "optional": false
+                            },
+                            {
+                                "name": "data_request",
+                                "type": "{message}",
+                                "optional": false,
+                                "description": "If passed, item data will be returned"
+                            },
+                            {
+                                "name": "sort_order",
+                                "type": "{enum}",
+                                "optional": true
+                            },
+                            {
+                                "name": "filters",
+                                "type": "{message}",
+                                "optional": false
+                            },
+                            {
+                                "name": "start_index",
+                                "type": "int32",
+                                "optional": true,
+                                "description": "Data in this range will be filled in with StoreBrowse data"
+                            },
+                            {
+                                "name": "page_size",
+                                "type": "int32",
+                                "optional": true
+                            }
+                        ]
+                    },
+                    {
+                        "name": "GetWishlist",
+                        "version": 1,
+                        "httpmethod": "GET",
+                        "description": "Get a user's wishlist.",
+                        "parameters": [
+                            {
+                                "name": "steamid",
+                                "type": "uint64",
+                                "optional": false
+                            }
+                        ]
+                    },
+                    {
+                        "name": "GetWishlistItemCount",
+                        "version": 1,
+                        "httpmethod": "GET",
+                        "description": "Get the number of items on a user's wishlist.",
+                        "parameters": [
+                            {
+                                "name": "steamid",
+                                "type": "uint64",
+                                "optional": false
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "name": "IHelpRequestLogsService",
+                "methods": [
+                    {
+                        "name": "UploadUserApplicationLog",
+                        "version": 1,
+                        "httpmethod": "POST",
+                        "description": "User uploading application logs",
+                        "parameters": [
+                            {
+                                "name": "appid",
+                                "type": "uint32",
+                                "optional": false
+                            },
+                            {
+                                "name": "log_type",
+                                "type": "string",
+                                "optional": false
+                            },
+                            {
+                                "name": "version_string",
+                                "type": "string",
+                                "optional": false
+                            },
+                            {
+                                "name": "log_contents",
+                                "type": "string",
+                                "optional": false
+                            },
+                            {
+                                "name": "request_id",
+                                "type": "uint64",
+                                "optional": false
+                            }
+                        ]
+                    },
+                    {
+                        "name": "GetApplicationLogDemand",
+                        "version": 1,
+                        "httpmethod": "POST",
+                        "description": "Returns whether the server would like the user to upload logs",
+                        "parameters": [
+                            {
+                                "name": "appid",
+                                "type": "uint32",
+                                "optional": false
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    }
+}
