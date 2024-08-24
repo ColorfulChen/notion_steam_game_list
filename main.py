@@ -67,7 +67,7 @@ def add_item_to_notion_database(game):
 
     playtime = round(float(game["playtime_forever"]) / 60, 1)
     last_played_time = time.strftime("%Y-%m-%d", time.localtime(game["rtime_last_played"]))
-    store_url = f'https://store.steampowered.com/appid/{game['appid']}'
+    store_url = f'https://store.steampowered.com/app/{game['appid']}'
 
     data = {
         "parent": {
@@ -157,7 +157,7 @@ def update_item_to_notion_database(page_id,game):
 
     playtime = round(float(game["playtime_forever"]) / 60, 1)
     last_played_time = time.strftime("%Y-%m-%d", time.localtime(game["rtime_last_played"]))
-    store_url = f'https://store.steampowered.com/appid/{game['appid']}'
+    store_url = f'https://store.steampowered.com/app/{game['appid']}'
 
     data = {
         "properties": {
@@ -191,7 +191,7 @@ if __name__ == "__main__":
 
     for game in owned_game_data["response"]["games"]:
         cnt = cnt + 1
-        print(f"process now {cnt}/{total}...")
+        print(f"process now at {cnt}/{total}...")
 
         query = query_item_from_notion_database(game["name"])
         if query["results"] == []:
@@ -202,3 +202,6 @@ if __name__ == "__main__":
         else:
             if enable_item_update:
                 update_item_to_notion_database(query["results"][0]['id'],game)
+                icon_url = f'https://media.steampowered.com/steamcommunity/public/images/apps/{game['appid']}/{game['img_icon_url']}.jpg'
+                add_cover_to_notion_database_item(query["results"][0]['id'],icon_url)
+                add_icon_to_notion_database_item(query["results"][0]['id'],icon_url)
