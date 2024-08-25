@@ -7,7 +7,7 @@ from requests.exceptions import SSLError
 STEAM_API_KEY = os.environ.get("STEAM_API_KEY")
 STEAM_USER_ID = os.environ.get("STEAM_USER_ID")
 NOTION_DATABASE_API_KEY = os.environ.get("NOTION_DATABASE_API_KEY")
-NOTION_DATABASE_ID = "b12648be61674b4fbe2c4e925279d364"
+NOTION_DATABASE_ID = "63b4fd39830b4946b1c91d65b90a7848"
 # OPTIONAL
 include_played_free_games = True
 enable_item_update = False
@@ -65,6 +65,7 @@ def add_item_to_notion_database(game):
     playtime = round(float(game["playtime_forever"]) / 60, 1)
     last_played_time = time.strftime("%Y-%m-%d", time.localtime(game["rtime_last_played"]))
     store_url = f'https://store.steampowered.com/app/{game['appid']}'
+    icon_url = f'https://media.steampowered.com/steamcommunity/public/images/apps/{game['appid']}/{game['img_icon_url']}.jpg'
 
     data = {
         "parent": {
@@ -83,42 +84,12 @@ def add_item_to_notion_database(game):
                 "url":store_url,
             },
         },
+        "cover": {"type": "external", "external": {"url": f"{icon_url}"}},
+            "icon": {"type": "external", "external": {"url": f"{icon_url}"}}
     }
 
     try:  
         response = send_request_with_retry(url, headers=headers, json_data=data,method='post')  
-        return response.json()
-    except Exception as e:  
-        print(f"Failed to send request: {e}")
-
-def add_cover_to_notion_database_item(page_id, cover_url):
-    url = f"https://api.notion.com/v1/pages/{page_id}"
-    headers = {
-        "Authorization": f"Bearer {NOTION_DATABASE_API_KEY}",
-        "Content-Type": "application/json",
-        "Notion-Version": "2022-06-28",
-    }
-
-    data = {"cover": {"type": "external", "external": {"url": f"{cover_url}"}}}
-
-    try:  
-        response = send_request_with_retry(url, headers=headers, json_data=data,method='patch')  
-        return response.json()
-    except Exception as e:  
-        print(f"Failed to send request: {e}")
-
-def add_icon_to_notion_database_item(page_id, icon_url):
-    url = f"https://api.notion.com/v1/pages/{page_id}"
-    headers = {
-        "Authorization": f"Bearer {NOTION_DATABASE_API_KEY}",
-        "Content-Type": "application/json",
-        "Notion-Version": "2022-06-28",
-    }
-
-    data = {"icon": {"type": "external", "external": {"url": f"{icon_url}"}}}
-
-    try:  
-        response = send_request_with_retry(url, headers=headers, json_data=data,method='patch')  
         return response.json()
     except Exception as e:  
         print(f"Failed to send request: {e}")
@@ -151,6 +122,7 @@ def update_item_to_notion_database(page_id,game):
     playtime = round(float(game["playtime_forever"]) / 60, 1)
     last_played_time = time.strftime("%Y-%m-%d", time.localtime(game["rtime_last_played"]))
     store_url = f'https://store.steampowered.com/app/{game['appid']}'
+    icon_url = f'https://media.steampowered.com/steamcommunity/public/images/apps/{game['appid']}/{game['img_icon_url']}.jpg'
 
     data = {
         "properties": {
@@ -164,6 +136,8 @@ def update_item_to_notion_database(page_id,game):
                 "type":"url",
                 "url":store_url,
             },
+                    "cover": {"type": "external", "external": {"url": f"{icon_url}"}},
+            "icon": {"type": "external", "external": {"url": f"{icon_url}"}}
         },
     }
 
@@ -208,16 +182,10 @@ if __name__ == "__main__":
 
             if query["results"] == []:
                 added_item = add_item_to_notion_database(game)
-                icon_url = f'https://media.steampowered.com/steamcommunity/public/images/apps/{game['appid']}/{game['img_icon_url']}.jpg'
-                add_cover_to_notion_database_item(added_item['id'],icon_url)
-                add_icon_to_notion_database_item(added_item['id'],icon_url)
             else:
                 if enable_item_update:
                     playtime = round(float(game["playtime_forever"]) / 60, 1)
                     if query["results"][0]['properties']['playtime']['number'] != playtime:
                         update_item_to_notion_database(query["results"][0]['id'],game)
-                        icon_url = f'https://media.steampowered.com/steamcommunity/public/images/apps/{game['appid']}/{game['img_icon_url']}.jpg'
-                        add_cover_to_notion_database_item(query["results"][0]['id'],icon_url)
-                        add_icon_to_notion_database_item(query["results"][0]['id'],icon_url)
                 else:
                     continue
