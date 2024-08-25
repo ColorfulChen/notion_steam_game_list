@@ -24,6 +24,8 @@ def send_request_with_retry(url, headers=None, json_data=None, retries=MAX_RETRI
                 response = requests.patch(url, headers=headers, json=json_data)
             elif method == 'post':
                 response = requests.post(url, headers=headers, json=json_data)
+            elif method == 'get':
+                response = requests.get(url)
 
             response.raise_for_status()  # 如果响应状态码不是200系列，则抛出HTTPError异常  
             return response  
@@ -111,6 +113,24 @@ def query_item_from_notion_database(game_name):
     except Exception as e:  
         print(f"Failed to send request: {e}")
 
+def retreive_items_from_notion_database():
+    url = f'https://api.notion.com/v1/databases/{NOTION_DATABASE_ID}/query'
+    headers = {
+        "Authorization": f"Bearer {NOTION_DATABASE_API_KEY}",
+        "Content-Type": "application/json",
+        "Notion-Version": "2022-06-28",
+    }
+
+    data = {
+        "filter": {"property": "name", "rich_text": {"is_not_empty": True}}
+    }
+
+    try:  
+        response = send_request_with_retry(url, headers=headers,json_data=data,method='post')  
+        return response.json()
+    except Exception as e:  
+        print(f"Failed to send request: {e}")
+
 def update_item_to_notion_database(page_id,game):
     url = f"https://api.notion.com/v1/pages/{page_id}"
     headers = {
@@ -162,30 +182,55 @@ def is_record(game):
 
     return True
 
+def extract_items_to_be_added(database_data,owned_game_data):
+    game_to_be_added = []
+
+    for game in owned_game_data:
+        data = {}
+        is_record = True
+
+        for item in database_data["results"]:
+            if item['properties']['name'] == game['name']: #this item already exists
+                playtime = round(float(game["playtime_forever"]) / 60, 1)
+                if item['properties']['playtime'] != playtime:
+                    data['update'] = True
+                    data['data'] = game
+                    data['id'] = item['id']
+                    game_to_be_added.append(data)
+                
+                is_record = False
+                break
+        
+        if is_record:
+            data['update'] = False
+            data['data'] = game
+            game_to_be_added.append(data)
+        
+    return game_to_be_added
+
 if __name__ == "__main__":
+    database_data = retreive_items_from_notion_database()
     owned_game_data = get_owned_game_data_from_steam()
+    games_to_be_added = extract_items_to_be_added(database_data,owned_game_data["response"]["games"])
+
+    #print(games_to_be_added)
+
     #cnt = 0
     #total = owned_game_data["response"]["game_count"]
 
     with open("log.txt","w+",encoding='utf-8') as file:
 
-        for game in owned_game_data["response"]["games"]:
+        for game in games_to_be_added:
             #cnt = cnt + 1
             #print(f"process now at {cnt}/{total}...")
-            print(f"process now at {game["name"]}...")
+            print(f"process now at {game['data']["name"]}...")
 
-            if enable_filter == True and is_record(game) == False:
-                file.write(f'{game["name"],{game["appid"]}}\n')
+            if enable_filter == True and is_record(game['data']) == False:
+                file.write(f'{game['data']["name"],{game['data']["appid"]}}\n')
                 continue
 
-            query = query_item_from_notion_database(game["name"])
+            if game['update'] == False:
+                added_item = add_item_to_notion_database(game['data'])
+            elif enable_item_update:
+                update_item_to_notion_database(game['id'],game['data'])
 
-            if query["results"] == []:
-                added_item = add_item_to_notion_database(game)
-            else:
-                if enable_item_update:
-                    playtime = round(float(game["playtime_forever"]) / 60, 1)
-                    if query["results"][0]['properties']['playtime']['number'] != playtime:
-                        update_item_to_notion_database(query["results"][0]['id'],game)
-                else:
-                    continue
