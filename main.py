@@ -7,11 +7,11 @@ import logging
 STEAM_API_KEY = os.environ.get("STEAM_API_KEY")
 STEAM_USER_ID = os.environ.get("STEAM_USER_ID")
 NOTION_DATABASE_API_KEY = os.environ.get("NOTION_DATABASE_API_KEY")
-NOTION_DATABASE_ID = "b12648be61674b4fbe2c4e925279d364"
+NOTION_DATABASE_ID = "b12648be61674b4fbepyt2c4e925279d364"
 # OPTIONAL
 include_played_free_games = True
 enable_item_update = True
-enable_filter = False
+enable_filter = True
 # related to is_record() function to not record some games based on certain rules
 CREATE_DATABASE = False
 PAGE_ID = "a6c344eee16c46909f7525601282cdbb"
@@ -263,13 +263,15 @@ def database_create(page_id):
 
 
 # MISC
-def is_record(game):
-    not_record_time = "2019-01-01 00:00:00"
+def is_record(game, achievements_info):
+    not_record_time = "2020-01-01 00:00:00"
     time_tuple = time.strptime(not_record_time, "%Y-%m-%d %H:%M:%S")
     timestamp = time.mktime(time_tuple)
     playtime = round(float(game["playtime_forever"]) / 60, 1)
 
-    if playtime < 0.1 or game["rtime_last_played"] < timestamp:
+    if (playtime < 0.1 and achievements_info["total"] < 1) or (
+        game["rtime_last_played"] < timestamp and achievements_info["total"] < 1
+    ):
         logger.info(f"{game['name']} does not meet filter rule!")
         return False
 
@@ -316,7 +318,7 @@ if __name__ == "__main__":
     for game in owned_game_data["response"]["games"]:
         is_add = True
         achievements_info = {}
-        if enable_filter == True and is_record(game) == False:
+        if enable_filter == True and is_record(game, achievements_info) == False:
             continue
 
         achievements_info = get_achievements_count(game)
