@@ -10,7 +10,7 @@ NOTION_DATABASE_ID = "b12648be61674b4fbe2c4e925279d364"
 # OPTIONAL
 include_played_free_games = True
 enable_item_update = True
-enable_filter = True
+enable_filter = False
 # related to is_record() function to not record some games based on certain rules
 CREATE_DATABASE = False
 PAGE_ID = "a6c344eee16c46909f7525601282cdbb"
@@ -35,7 +35,7 @@ def send_request_with_retry(
             response.raise_for_status()  # 如果响应状态码不是200系列，则抛出HTTPError异常
             return response
         except requests.exceptions.RequestException as e:
-            print(f"Request Exception occurred: {e}. retring")
+            print(f"Request Exception occurred: {e}.{response.text} retring")
             retries -= 1
             if retries > 0:
                 time.sleep(RETRY_DELAY)  # 等待一段时间后再重试
@@ -174,9 +174,9 @@ def update_item_to_notion_database(page_id, game):
                 "type": "url",
                 "url": store_url,
             },
-            "cover": {"type": "external", "external": {"url": f"{cover_url}"}},
-            "icon": {"type": "external", "external": {"url": f"{icon_url}"}},
         },
+        "cover": {"type": "external", "external": {"url": f"{cover_url}"}},
+        "icon": {"type": "external", "external": {"url": f"{icon_url}"}},
     }
 
     try:
@@ -208,15 +208,20 @@ def extract_items_to_be_added(database_data, owned_game_data):
         is_record = True
 
         for item in database_data["results"]:
-            if item["properties"]["name"] == game["name"]:  # this item already exists
+            if (
+                item["properties"]["name"]["title"][0]["text"]["content"]
+                == game["name"]
+            ):  # this item already exists
                 playtime = round(float(game["playtime_forever"]) / 60, 1)
-                if item["properties"]["playtime"] != playtime:
+                if item["properties"]["playtime"]["number"] != playtime:
                     data["update"] = True
                     data["data"] = game
                     data["id"] = item["id"]
                     game_to_be_added.append(data)
+                    is_record = False
+                else:
+                    is_record = False
 
-                is_record = False
                 break
 
         if is_record:
@@ -265,6 +270,7 @@ if __name__ == "__main__":
         NOTION_DATABASE_ID = database_created["id"]
 
     database_data = retreive_items_from_notion_database()
+
     owned_game_data = get_owned_game_data_from_steam()
     games_to_be_added = extract_items_to_be_added(
         database_data, owned_game_data["response"]["games"]
@@ -287,6 +293,6 @@ if __name__ == "__main__":
                 continue
 
             if game["update"] == False:
-                added_item = add_item_to_notion_database(game["data"])
+                add_item_to_notion_database(game["data"])
             elif enable_item_update:
                 update_item_to_notion_database(game["id"], game["data"])
