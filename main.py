@@ -7,14 +7,14 @@ import logging
 STEAM_API_KEY = os.environ.get("STEAM_API_KEY")
 STEAM_USER_ID = os.environ.get("STEAM_USER_ID")
 NOTION_DATABASE_API_KEY = os.environ.get("NOTION_DATABASE_API_KEY")
-NOTION_DATABASE_ID = "b12648be61674b4fbe2c4e925279d364"
+NOTION_DATABASE_ID = os.environ.get("NOTION_DATABASE_ID")
 # OPTIONAL
 include_played_free_games = True
 enable_item_update = True
-enable_filter = False
+enable_filter = True
 # related to is_record() function to not record some games based on certain rules
 CREATE_DATABASE = False
-PAGE_ID = "a6c344eee16c46909f7525601282cdbb"
+PAGE_ID = os.environ.get("PAGE_ID")
 
 # MISC
 MAX_RETRIES = 20

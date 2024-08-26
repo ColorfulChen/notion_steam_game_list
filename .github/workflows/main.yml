@@ -27,4 +27,6 @@ jobs:
           STEAM_API_KEY: ${{ secrets.STEAM_API_KEY }}
           STEAM_USER_ID: ${{ secrets.STEAM_USER_ID }}
           NOTION_DATABASE_API_KEY: ${{ secrets.NOTION_API_KEY }}
+          PAGE_ID: ${{ secrets.PAGE_ID }}
+          NOTION_DATABASE_ID: ${{ secrets.NOTION_DATABASE_ID }}
         run: python main.py
