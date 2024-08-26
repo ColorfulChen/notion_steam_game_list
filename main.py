@@ -332,8 +332,12 @@ if __name__ == "__main__":
             ):  # this item already exists
                 is_add = False
                 if enable_item_update:
+                    logger.info(f"{game['name']} already exists!updating!")
                     update_item_to_notion_database(item["id"], game, achievements_info)
+                else:
+                    logger.info(f"{game['name']} already exists!skipping!")
                 break
 
         if is_add:
+            logger.info(f"{game['name']} does not exist! creating new item!")
             add_item_to_notion_database(game, achievements_info)
