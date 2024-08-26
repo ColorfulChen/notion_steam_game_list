@@ -1,4 +1,4 @@
-# notion_steam_library_database
+# notion_steam_game_list
 
 语言: [English](./README.md)/中文
 
