@@ -277,7 +277,6 @@ def get_achievements_count(game):
     achievements_info = {}
     achievements_info["total"] = 0
     achievements_info["achieved"] = 0
-    logger.critical(game_achievements)
 
     if game_achievements["playerstats"]["success"] is False:
         achievements_info["total"] = -1
