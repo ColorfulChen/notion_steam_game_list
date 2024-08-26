@@ -1,7 +1,6 @@
 import requests
 import time
 import os
-from requests.exceptions import SSLError
 
 # CONFIG
 STEAM_API_KEY = os.environ.get("STEAM_API_KEY")
@@ -13,6 +12,9 @@ include_played_free_games = True
 enable_item_update = False
 enable_filter = True
 # related to is_record() function to not record some games based on certain rules
+CREATE_DATABASE = False
+PAGE_ID = "a6c344eee16c46909f7525601282cdbb"
+
 
 MAX_RETRIES = 20
 RETRY_DELAY = 2
@@ -223,7 +225,43 @@ def extract_items_to_be_added(database_data, owned_game_data):
     return game_to_be_added
 
 
+def database_create(page_id):
+    url = "https://api.notion.com/v1/databases/"
+
+    headers = {
+        "Authorization": f"Bearer {NOTION_DATABASE_API_KEY}",
+        "Content-Type": "application/json",
+        "Notion-Version": "2022-06-28",
+    }
+
+    data = {
+        "parent": {
+            "type": "page_id",
+            "page_id": page_id,
+        },
+        "title": [{"type": "text", "text": {"content": "Game List"}}],
+        "properties": {
+            "name": {"title": {}},
+            "playtime": {"number": {}},
+            "last play": {"date": {}},
+            "store url": {"url": {}},
+        },
+    }
+
+    try:
+        response = send_request_with_retry(
+            url, headers=headers, json_data=data, method="post"
+        )
+        return response.json()
+    except Exception as e:
+        print(f"Failed to send request: {e}")
+
+
 if __name__ == "__main__":
+    if CREATE_DATABASE:
+        database_created = database_create(PAGE_ID)
+        NOTION_DATABASE_ID = database_created["id"]
+
     database_data = retreive_items_from_notion_database()
     owned_game_data = get_owned_game_data_from_steam()
     games_to_be_added = extract_items_to_be_added(
