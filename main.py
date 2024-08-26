@@ -7,11 +7,11 @@ import logging
 STEAM_API_KEY = os.environ.get("STEAM_API_KEY")
 STEAM_USER_ID = os.environ.get("STEAM_USER_ID")
 NOTION_DATABASE_API_KEY = os.environ.get("NOTION_DATABASE_API_KEY")
-NOTION_DATABASE_ID = "097d0acaf0dd496db5cd4e1226b56ca7"
+NOTION_DATABASE_ID = "b12648be61674b4fbe2c4e925279d364"
 # OPTIONAL
 include_played_free_games = True
 enable_item_update = True
-enable_filter = True
+enable_filter = False
 # related to is_record() function to not record some games based on certain rules
 CREATE_DATABASE = False
 PAGE_ID = "a6c344eee16c46909f7525601282cdbb"
@@ -21,7 +21,7 @@ MAX_RETRIES = 20
 RETRY_DELAY = 2
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("")
-file_handler = logging.FileHandler("app.log")
+file_handler = logging.FileHandler("app.log", encoding="utf-8")
 file_handler.setLevel(logging.INFO)
 logger.addHandler(file_handler)
 
@@ -102,8 +102,10 @@ def add_item_to_notion_database(game, achievements_info):
     total_achievements = achievements_info["total"]
     achieved_achievements = achievements_info["achieved"]
 
-    if total_achievements != -1:
-        completion = float(total_achievements) / float(achieved_achievements) * 100
+    if total_achievements > 0:
+        completion = round(
+            float(achieved_achievements) / float(total_achievements) * 100, 1
+        )
     else:
         completion = -1
 
@@ -183,8 +185,10 @@ def update_item_to_notion_database(page_id, game, achievements_info):
     total_achievements = achievements_info["total"]
     achieved_achievements = achievements_info["achieved"]
 
-    if total_achievements != -1:
-        completion = float(total_achievements) / float(achieved_achievements) * 100
+    if total_achievements > 0:
+        completion = round(
+            float(achieved_achievements) / float(total_achievements) * 100, 1
+        )
     else:
         completion = -1
 
@@ -300,38 +304,6 @@ def get_achievements_count(game):
     return achievements_info
 
 
-def extract_items_to_be_added(database_data, owned_game_data):
-    game_to_be_added = []
-
-    for game in owned_game_data:
-        data = {}
-        is_record = True
-        achievements_info = {}
-        if game["playtime_forever"] > 0:
-            achievements_info = get_achievements_count(game)
-
-        for item in database_data["results"]:
-            if (
-                item["properties"]["name"]["title"][0]["text"]["content"]
-                == game["name"]
-            ):  # this item already exists
-                data["update"] = True
-                data["data"] = game
-                data["id"] = item["id"]
-                data["achievements"] = achievements_info
-                game_to_be_added.append(data)
-                is_record = False
-                break
-
-        if is_record:
-            data["update"] = False
-            data["data"] = game
-            data["achievements"] = achievements_info
-            game_to_be_added.append(data)
-
-    return game_to_be_added
-
-
 if __name__ == "__main__":
 
     if CREATE_DATABASE:
@@ -339,19 +311,25 @@ if __name__ == "__main__":
         NOTION_DATABASE_ID = database_created["id"]
 
     database_data = retreive_items_from_notion_database()
-
     owned_game_data = get_owned_game_data_from_steam()
-    games_to_be_added = extract_items_to_be_added(
-        database_data, owned_game_data["response"]["games"]
-    )
 
-    for game in games_to_be_added:
-        if enable_filter == True and is_record(game["data"]) == False:
+    for game in owned_game_data["response"]["games"]:
+        is_add = True
+        achievements_info = {}
+        if enable_filter == True and is_record(game) == False:
             continue
 
-        if game["update"] == False:
-            add_item_to_notion_database(game["data"], game["achievements"])
-        elif enable_item_update:
-            update_item_to_notion_database(
-                game["id"], game["data"], game["achievements"]
-            )
+        achievements_info = get_achievements_count(game)
+
+        for item in database_data["results"]:
+            if (
+                item["properties"]["name"]["title"][0]["text"]["content"]
+                == game["name"]
+            ):  # this item already exists
+                is_add = False
+                if enable_item_update:
+                    update_item_to_notion_database(item["id"], game, achievements_info)
+                break
+
+        if is_add:
+            add_item_to_notion_database(game, achievements_info)
