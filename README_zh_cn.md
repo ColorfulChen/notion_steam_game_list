@@ -134,14 +134,14 @@ https://www.notion.so/{WORKSPACE}/{PAGE_TITLE}-{PAGE_ID}
 
 '-'后面的则是页面id。
 
-### 安装request库
+### 安装requests库
 
 假设你的电脑已经在官网下好了python环境。
 
 如果没有的话，请到[python官网](http://www.python.org)安装python 3.6+版本。
 
 ```shell
-pip install request
+pip install requests
 ```
 
 ### 运行程序

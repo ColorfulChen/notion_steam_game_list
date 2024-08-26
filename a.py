@@ -1,7 +1,0 @@
-{
-    "object": "error",
-    "status": 400,
-    "code": "validation_error",
-    "message": "body failed validation. Fix one:\nbody.properties.cover.title should be defined, instead was `undefined`.\nbody.properties.cover.rich_text should be defined, instead was `undefined`.\nbody.properties.cover.number should be defined, instead was `undefined`.\nbody.properties.cover.url should be defined, instead was `undefined`.\nbody.properties.cover.select should be defined, instead was `undefined`.\nbody.properties.cover.multi_select should be defined, instead was `undefined`.\nbody.properties.cover.people should be defined, instead was `undefined`.\nbody.properties.cover.email should be defined, instead was `undefined`.\nbody.properties.cover.phone_number should be defined, instead was `undefined`.\nbody.properties.cover.date should be defined, instead was `undefined`.\nbody.properties.cover.checkbox should be defined, instead was `undefined`.\nbody.properties.cover.relation should be defined, instead was `undefined`.\nbody.properties.cover.files should be defined, instead was `undefined`.\nbody.properties.cover.status should be defined, instead was `undefined`.\nbody.properties.name.id should be defined, instead was `undefined`.\nbody.properties.name.name should be defined, instead was `undefined`.\nbody.properties.name.start should be defined, instead was `undefined`.",
-    "request_id": "b1a5defe-4957-4591-a23c-586b04a49125",
-}
