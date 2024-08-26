@@ -10,7 +10,7 @@ NOTION_DATABASE_ID = "b12648be61674b4fbe2c4e925279d364"
 # OPTIONAL
 include_played_free_games = True
 enable_item_update = True
-enable_filter = False
+enable_filter = True
 # related to is_record() function to not record some games based on certain rules
 CREATE_DATABASE = False
 PAGE_ID = "a6c344eee16c46909f7525601282cdbb"
@@ -189,12 +189,12 @@ def update_item_to_notion_database(page_id, game):
 
 
 def is_record(game):
-    not_record_time = "2020-01-01 00:00:00"
+    not_record_time = "2019-01-01 00:00:00"
     time_tuple = time.strptime(not_record_time, "%Y-%m-%d %H:%M:%S")
     timestamp = time.mktime(time_tuple)
     playtime = round(float(game["playtime_forever"]) / 60, 1)
 
-    if playtime < 0.1 or (game["rtime_last_played"] < timestamp and playtime < 4):
+    if playtime < 0.1 or game["rtime_last_played"] < timestamp:
         return False
 
     return True
@@ -276,20 +276,12 @@ if __name__ == "__main__":
         database_data, owned_game_data["response"]["games"]
     )
 
-    # print(games_to_be_added)
-
-    # cnt = 0
-    # total = owned_game_data["response"]["game_count"]
-
     with open("log.txt", "w+", encoding="utf-8") as file:
 
         for game in games_to_be_added:
-            # cnt = cnt + 1
-            # print(f"process now at {cnt}/{total}...")
             print(f"process now at {game['data']['name']}...")
 
             if enable_filter == True and is_record(game["data"]) == False:
-                file.write(f'{game["data"]["name"]},{game["data"]["appid"]}\n')
                 continue
 
             if game["update"] == False:

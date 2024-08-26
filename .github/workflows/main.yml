@@ -1,9 +1,9 @@
 name: Update Notion with Steam Data
 
-on:
-  schedule:
-    - cron: "0 12 * * *"
-  workflow_dispatch:
+on: fork
+  # schedule:
+  #   - cron: "0 12 * * *"
+  # workflow_dispatch:
 
 jobs:
   update:
@@ -25,7 +25,6 @@ jobs:
       - name: update notion games
         env:
           STEAM_API_KEY: ${{ secrets.STEAM_API_KEY }}
-          STEAM_ID: ${{ secrets.STEAM_ID }}
-          NOTION_API_KEY: ${{ secrets.NOTION_API_KEY }}
-          NOTION_DATABASE_ID: ${{ secrets.NOTION_DATABASE_ID }}
+          STEAM_USER_ID: ${{ secrets.STEAM_USER_ID }}
+          NOTION_DATABASE_API_KEY: ${{ secrets.NOTION_API_KEY }}
         run: python main.py
