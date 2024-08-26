@@ -6,10 +6,10 @@ import os
 STEAM_API_KEY = os.environ.get("STEAM_API_KEY")
 STEAM_USER_ID = os.environ.get("STEAM_USER_ID")
 NOTION_DATABASE_API_KEY = os.environ.get("NOTION_DATABASE_API_KEY")
-NOTION_DATABASE_ID = "63b4fd39830b4946b1c91d65b90a7848"
+NOTION_DATABASE_ID = "b12648be61674b4fbe2c4e925279d364"
 # OPTIONAL
 include_played_free_games = True
-enable_item_update = False
+enable_item_update = True
 enable_filter = True
 # related to is_record() function to not record some games based on certain rules
 CREATE_DATABASE = False
@@ -77,6 +77,7 @@ def add_item_to_notion_database(game):
     )
     store_url = f"https://store.steampowered.com/app/{game['appid']}"
     icon_url = f"https://media.steampowered.com/steamcommunity/public/images/apps/{game['appid']}/{game['img_icon_url']}.jpg"
+    cover_url = f"https://steamcdn-a.akamaihd.net/steam/apps/{game['appid']}/header.jpg"
 
     data = {
         "parent": {
@@ -95,7 +96,7 @@ def add_item_to_notion_database(game):
                 "url": store_url,
             },
         },
-        "cover": {"type": "external", "external": {"url": f"{icon_url}"}},
+        "cover": {"type": "external", "external": {"url": f"{cover_url}"}},
         "icon": {"type": "external", "external": {"url": f"{icon_url}"}},
     }
 
@@ -159,6 +160,7 @@ def update_item_to_notion_database(page_id, game):
     )
     store_url = f"https://store.steampowered.com/app/{game['appid']}"
     icon_url = f"https://media.steampowered.com/steamcommunity/public/images/apps/{game['appid']}/{game['img_icon_url']}.jpg"
+    cover_url = f"https://steamcdn-a.akamaihd.net/steam/apps/{game['appid']}/header.jpg"
 
     data = {
         "properties": {
@@ -172,7 +174,7 @@ def update_item_to_notion_database(page_id, game):
                 "type": "url",
                 "url": store_url,
             },
-            "cover": {"type": "external", "external": {"url": f"{icon_url}"}},
+            "cover": {"type": "external", "external": {"url": f"{cover_url}"}},
             "icon": {"type": "external", "external": {"url": f"{icon_url}"}},
         },
     }
@@ -278,10 +280,10 @@ if __name__ == "__main__":
         for game in games_to_be_added:
             # cnt = cnt + 1
             # print(f"process now at {cnt}/{total}...")
-            print(f"process now at {game['data']["name"]}...")
+            print(f"process now at {game['data']['name']}...")
 
             if enable_filter == True and is_record(game["data"]) == False:
-                file.write(f'{game['data']["name"],{game['data']["appid"]}}\n')
+                file.write(f'{game["data"]["name"]},{game["data"]["appid"]}\n')
                 continue
 
             if game["update"] == False:

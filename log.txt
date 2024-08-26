@@ -1,8 +1,0 @@
-('Half-Life Deathmatch: Source', {360})
-('Half-Life 2: Episode One', {380})
-('Machinarium', {40700})
-('The Witcher: Enhanced Edition', {20900})
-('Call of Duty: Modern Warfare 2 (2009)', {10180})
-('Call of Duty: Modern Warfare 2 (2009) - Multiplayer', {10190})
-('Alien Shooter 2: Reloaded', {33120})
-('Zombie Shooter', {33130})
