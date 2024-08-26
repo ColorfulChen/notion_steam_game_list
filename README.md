@@ -1,6 +1,6 @@
 # notion_steam_library_database
 
-Language: English/[中文](README_zh_cn.md)
+Language: English/[中文](./README_zh_cn.md)
 
 ## description
 
@@ -8,7 +8,7 @@ this project use notion integration to imported a steam user's game library to n
 
 Importerd database is as followes:
 
-![1724501890766.png](image\README\1724501890766.png)
+![1724501890766.png](./image/README/1724501890766.png)
 
 imported data are as follows:
 
@@ -84,11 +84,8 @@ the database you want to import to's id, before import you should make sure this
 the database should contains these item with exact name and data type as the bracket shows.
 
 - name(title)
-
 - playtime(number)
-
 - last play(date)
-
 - store url(url)
 
 the database id could get from its share link.

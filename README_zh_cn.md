@@ -1,6 +1,6 @@
 # notion_steam_library_database
 
-语言: [English](README.md)/中文
+语言: [English](./README.md)/中文
 
 ## 描述
 
@@ -8,7 +8,7 @@
 
 表格样式如图：
 
-![1724501890766.png](image\README\1724501890766.png)
+![1724501890766.png](./image/README/1724501890766.png)
 
 导入的数据如下：
 
