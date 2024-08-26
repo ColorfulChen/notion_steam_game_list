@@ -1,12 +1,13 @@
 import requests
 import time
 import os
+import logging
 
 # CONFIG
 STEAM_API_KEY = os.environ.get("STEAM_API_KEY")
 STEAM_USER_ID = os.environ.get("STEAM_USER_ID")
 NOTION_DATABASE_API_KEY = os.environ.get("NOTION_DATABASE_API_KEY")
-NOTION_DATABASE_ID = "b12648be61674b4fbe2c4e925279d364"
+NOTION_DATABASE_ID = "097d0acaf0dd496db5cd4e1226b56ca7"
 # OPTIONAL
 include_played_free_games = True
 enable_item_update = True
@@ -15,9 +16,14 @@ enable_filter = True
 CREATE_DATABASE = False
 PAGE_ID = "a6c344eee16c46909f7525601282cdbb"
 
-
+# MISC
 MAX_RETRIES = 20
 RETRY_DELAY = 2
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger("")
+file_handler = logging.FileHandler("app.log")
+file_handler.setLevel(logging.INFO)
+logger.addHandler(file_handler)
 
 
 def send_request_with_retry(
@@ -35,16 +41,17 @@ def send_request_with_retry(
             response.raise_for_status()  # 如果响应状态码不是200系列，则抛出HTTPError异常
             return response
         except requests.exceptions.RequestException as e:
-            print(f"Request Exception occurred: {e}.{response.text} retring")
+            logger.error(f"Request Exception occurred: {e}.{response.text} retring")
             retries -= 1
             if retries > 0:
                 time.sleep(RETRY_DELAY)  # 等待一段时间后再重试
             else:
-                print("Max retries exceeded. Giving up.")
+                logger.error("Max retries exceeded. Giving up.")
                 raise
             raise
 
 
+# steamapi
 def get_owned_game_data_from_steam():
     url = "http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?"
     url = url + "key=" + STEAM_API_KEY
@@ -53,23 +60,37 @@ def get_owned_game_data_from_steam():
     if include_played_free_games:
         url = url + "&include_played_free_games=True"
 
-    response = requests.get(url)
-    if response.status_code != 200:
-        print(
-            f"get_owned_game_data_from_steam() Request failed with status code {response.status_code}"
-        )
-        exit(0)
+    logger.info("fetching data from steam..")
 
+    try:
+        response = send_request_with_retry(url, method="get")
+        logger.info("fetching data success!")
+        return response.json()
+    except Exception as e:
+        logger.error(f"Failed to send request: {e},{response.text}")
+
+
+def query_achievements_info_from_steam(game):
+    url = "http://api.steampowered.com/ISteamUserStats/GetPlayerAchievements/v0001/?"
+    url = url + "key=" + STEAM_API_KEY
+    url = url + "&steamid=" + STEAM_USER_ID
+    url = url + "&appid=" + f"{game['appid']}"
+
+    logger.info(f"querying for {game['name']} achievements counts...")
+    response = requests.get(url)
     return response.json()
 
 
-def add_item_to_notion_database(game):
+# notionapi
+def add_item_to_notion_database(game, achievements_info):
     url = "https://api.notion.com/v1/pages"
     headers = {
         "Authorization": f"Bearer {NOTION_DATABASE_API_KEY}",
         "Content-Type": "application/json",
         "Notion-Version": "2022-06-28",
     }
+
+    logger.info(f"adding game {game['name']} to notion...")
 
     playtime = round(float(game["playtime_forever"]) / 60, 1)
     last_played_time = time.strftime(
@@ -78,6 +99,13 @@ def add_item_to_notion_database(game):
     store_url = f"https://store.steampowered.com/app/{game['appid']}"
     icon_url = f"https://media.steampowered.com/steamcommunity/public/images/apps/{game['appid']}/{game['img_icon_url']}.jpg"
     cover_url = f"https://steamcdn-a.akamaihd.net/steam/apps/{game['appid']}/header.jpg"
+    total_achievements = achievements_info["total"]
+    achieved_achievements = achievements_info["achieved"]
+
+    if total_achievements != -1:
+        completion = float(total_achievements) / float(achieved_achievements) * 100
+    else:
+        completion = -1
 
     data = {
         "parent": {
@@ -95,6 +123,12 @@ def add_item_to_notion_database(game):
                 "type": "url",
                 "url": store_url,
             },
+            "completion": {"type": "number", "number": completion},
+            "total achievements": {"type": "number", "number": total_achievements},
+            "achieved achievements": {
+                "type": "number",
+                "number": achieved_achievements,
+            },
         },
         "cover": {"type": "external", "external": {"url": f"{cover_url}"}},
         "icon": {"type": "external", "external": {"url": f"{icon_url}"}},
@@ -104,27 +138,10 @@ def add_item_to_notion_database(game):
         response = send_request_with_retry(
             url, headers=headers, json_data=data, method="post"
         )
+        logger.info(f"{game['name']}added!")
         return response.json()
     except Exception as e:
-        print(f"Failed to send request: {e}")
-
-
-def query_item_from_notion_database(game_name):
-    url = f"https://api.notion.com/v1/databases/{NOTION_DATABASE_ID}/query"
-    headers = {
-        "Authorization": f"Bearer {NOTION_DATABASE_API_KEY}",
-        "Content-Type": "application/json",
-        "Notion-Version": "2022-06-28",
-    }
-    data = {"filter": {"property": "name", "rich_text": {"equals": f"{game_name}"}}}
-
-    try:
-        response = send_request_with_retry(
-            url, headers=headers, json_data=data, method="post"
-        )
-        return response.json()
-    except Exception as e:
-        print(f"Failed to send request: {e}")
+        logger.error(f"Failed to send request: {e},{response.text}")
 
 
 def retreive_items_from_notion_database():
@@ -136,17 +153,19 @@ def retreive_items_from_notion_database():
     }
 
     data = {"filter": {"property": "name", "rich_text": {"is_not_empty": True}}}
+    logger.info(f"retrieving data from notion database...")
 
     try:
         response = send_request_with_retry(
             url, headers=headers, json_data=data, method="post"
         )
+        logger.info(f"retrieve complete!")
         return response.json()
     except Exception as e:
-        print(f"Failed to send request: {e}")
+        logger.error(f"Failed to send request: {e},{response.text}")
 
 
-def update_item_to_notion_database(page_id, game):
+def update_item_to_notion_database(page_id, game, achievements_info):
     url = f"https://api.notion.com/v1/pages/{page_id}"
     headers = {
         "Authorization": f"Bearer {NOTION_DATABASE_API_KEY}",
@@ -161,6 +180,15 @@ def update_item_to_notion_database(page_id, game):
     store_url = f"https://store.steampowered.com/app/{game['appid']}"
     icon_url = f"https://media.steampowered.com/steamcommunity/public/images/apps/{game['appid']}/{game['img_icon_url']}.jpg"
     cover_url = f"https://steamcdn-a.akamaihd.net/steam/apps/{game['appid']}/header.jpg"
+    total_achievements = achievements_info["total"]
+    achieved_achievements = achievements_info["achieved"]
+
+    if total_achievements != -1:
+        completion = float(total_achievements) / float(achieved_achievements) * 100
+    else:
+        completion = -1
+
+    logger.info(f"updating {game['name']} to notion...")
 
     data = {
         "properties": {
@@ -174,6 +202,12 @@ def update_item_to_notion_database(page_id, game):
                 "type": "url",
                 "url": store_url,
             },
+            "completion": {"type": "number", "number": completion},
+            "total achievements": {"type": "number", "number": total_achievements},
+            "achieved achievements": {
+                "type": "number",
+                "number": achieved_achievements,
+            },
         },
         "cover": {"type": "external", "external": {"url": f"{cover_url}"}},
         "icon": {"type": "external", "external": {"url": f"{icon_url}"}},
@@ -183,53 +217,10 @@ def update_item_to_notion_database(page_id, game):
         response = send_request_with_retry(
             url, headers=headers, json_data=data, method="patch"
         )
+        logger.info(f"{game['name']} updated!")
         return response.json()
     except Exception as e:
-        print(f"Failed to send request: {e}")
-
-
-def is_record(game):
-    not_record_time = "2019-01-01 00:00:00"
-    time_tuple = time.strptime(not_record_time, "%Y-%m-%d %H:%M:%S")
-    timestamp = time.mktime(time_tuple)
-    playtime = round(float(game["playtime_forever"]) / 60, 1)
-
-    if playtime < 0.1 or game["rtime_last_played"] < timestamp:
-        return False
-
-    return True
-
-
-def extract_items_to_be_added(database_data, owned_game_data):
-    game_to_be_added = []
-
-    for game in owned_game_data:
-        data = {}
-        is_record = True
-
-        for item in database_data["results"]:
-            if (
-                item["properties"]["name"]["title"][0]["text"]["content"]
-                == game["name"]
-            ):  # this item already exists
-                playtime = round(float(game["playtime_forever"]) / 60, 1)
-                if item["properties"]["playtime"]["number"] != playtime:
-                    data["update"] = True
-                    data["data"] = game
-                    data["id"] = item["id"]
-                    game_to_be_added.append(data)
-                    is_record = False
-                else:
-                    is_record = False
-
-                break
-
-        if is_record:
-            data["update"] = False
-            data["data"] = game
-            game_to_be_added.append(data)
-
-    return game_to_be_added
+        logger.error(f"Failed to send request: {e},{response.text}")
 
 
 def database_create(page_id):
@@ -249,8 +240,11 @@ def database_create(page_id):
         "title": [{"type": "text", "text": {"content": "Game List"}}],
         "properties": {
             "name": {"title": {}},
+            "completion": {"number": {}},
             "playtime": {"number": {}},
             "last play": {"date": {}},
+            "total achievements": {"number": {}},
+            "achieved achievements": {"number": {}},
             "store url": {"url": {}},
         },
     }
@@ -261,10 +255,86 @@ def database_create(page_id):
         )
         return response.json()
     except Exception as e:
-        print(f"Failed to send request: {e}")
+        logger.error(f"Failed to send request: {e}")
+
+
+# MISC
+def is_record(game):
+    not_record_time = "2019-01-01 00:00:00"
+    time_tuple = time.strptime(not_record_time, "%Y-%m-%d %H:%M:%S")
+    timestamp = time.mktime(time_tuple)
+    playtime = round(float(game["playtime_forever"]) / 60, 1)
+
+    if playtime < 0.1 or game["rtime_last_played"] < timestamp:
+        logger.info(f"{game['name']} does not meet filter rule!")
+        return False
+
+    return True
+
+
+def get_achievements_count(game):
+    game_achievements = query_achievements_info_from_steam(game)
+    achievements_info = {}
+    achievements_info["total"] = 0
+    achievements_info["achieved"] = 0
+    logger.critical(game_achievements)
+
+    if game_achievements["playerstats"]["success"] is False:
+        achievements_info["total"] = -1
+        achievements_info["achieved"] = -1
+        logger.info(f"no info for game {game['name']}")
+
+    elif "achievements" not in game_achievements["playerstats"]:
+        achievements_info["total"] = -1
+        achievements_info["achieved"] = -1
+        logger.info(f"no achievements for game {game['name']}")
+
+    else:
+        achievments_array = game_achievements["playerstats"]["achievements"]
+        for achievement_dict in achievments_array:
+            achievements_info["total"] = achievements_info["total"] + 1
+            if achievement_dict["achieved"]:
+                achievements_info["achieved"] = achievements_info["achieved"] + 1
+
+        logger.info(f"{game['name']} achievements count complete!")
+
+    return achievements_info
+
+
+def extract_items_to_be_added(database_data, owned_game_data):
+    game_to_be_added = []
+
+    for game in owned_game_data:
+        data = {}
+        is_record = True
+        achievements_info = {}
+        if game["playtime_forever"] > 0:
+            achievements_info = get_achievements_count(game)
+
+        for item in database_data["results"]:
+            if (
+                item["properties"]["name"]["title"][0]["text"]["content"]
+                == game["name"]
+            ):  # this item already exists
+                data["update"] = True
+                data["data"] = game
+                data["id"] = item["id"]
+                data["achievements"] = achievements_info
+                game_to_be_added.append(data)
+                is_record = False
+                break
+
+        if is_record:
+            data["update"] = False
+            data["data"] = game
+            data["achievements"] = achievements_info
+            game_to_be_added.append(data)
+
+    return game_to_be_added
 
 
 if __name__ == "__main__":
+
     if CREATE_DATABASE:
         database_created = database_create(PAGE_ID)
         NOTION_DATABASE_ID = database_created["id"]
@@ -276,15 +346,13 @@ if __name__ == "__main__":
         database_data, owned_game_data["response"]["games"]
     )
 
-    with open("log.txt", "w+", encoding="utf-8") as file:
+    for game in games_to_be_added:
+        if enable_filter == True and is_record(game["data"]) == False:
+            continue
 
-        for game in games_to_be_added:
-            print(f"process now at {game['data']['name']}...")
-
-            if enable_filter == True and is_record(game["data"]) == False:
-                continue
-
-            if game["update"] == False:
-                add_item_to_notion_database(game["data"])
-            elif enable_item_update:
-                update_item_to_notion_database(game["id"], game["data"])
+        if game["update"] == False:
+            add_item_to_notion_database(game["data"], game["achievements"])
+        elif enable_item_update:
+            update_item_to_notion_database(
+                game["id"], game["data"], game["achievements"]
+            )
