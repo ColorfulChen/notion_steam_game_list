@@ -147,3 +147,6 @@ pip install request
 ```
 python main.py
 ```
+
+##TODO
+1. replace item cover with high resolution picture. (maybe from igdb api?)
