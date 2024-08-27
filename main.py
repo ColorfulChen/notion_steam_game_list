@@ -146,7 +146,7 @@ def add_item_to_notion_database(game, achievements_info):
         logger.error(f"Failed to send request: {e},{response.text}")
 
 
-def retreive_items_from_notion_database():
+def query_item_from_notion_database(game):
     url = f"https://api.notion.com/v1/databases/{NOTION_DATABASE_ID}/query"
     headers = {
         "Authorization": f"Bearer {NOTION_DATABASE_API_KEY}",
@@ -154,14 +154,14 @@ def retreive_items_from_notion_database():
         "Notion-Version": "2022-06-28",
     }
 
-    data = {"filter": {"property": "name", "rich_text": {"is_not_empty": True}}}
-    logger.info(f"retrieving data from notion database...")
+    logger.info(f"querying f'{game['name']}' from database")
+    data = {"filter": {"property": "name", "rich_text": {"equals": f"{game['name']}"}}}
 
     try:
         response = send_request_with_retry(
             url, headers=headers, json_data=data, method="post"
         )
-        logger.info(f"retrieve complete!")
+        logger.info(f"query complete!")
         return response.json()
     except Exception as e:
         logger.error(f"Failed to send request: {e},{response.text}")
@@ -314,7 +314,6 @@ if __name__ == "__main__":
         database_created = database_create(PAGE_ID)
         NOTION_DATABASE_ID = database_created["id"]
 
-    database_data = retreive_items_from_notion_database()
     owned_game_data = get_owned_game_data_from_steam()
 
     for game in owned_game_data["response"]["games"]:
@@ -327,19 +326,15 @@ if __name__ == "__main__":
         if enable_filter == "true" and is_record(game, achievements_info) == False:
             continue
 
-        for item in database_data["results"]:
-            if (
-                item["properties"]["name"]["title"][0]["text"]["content"]
-                == game["name"]
-            ):  # this item already exists
-                is_add = False
-                if enable_item_update == "true":
-                    logger.info(f"{game['name']} already exists!updating!")
-                    update_item_to_notion_database(item["id"], game, achievements_info)
-                else:
-                    logger.info(f"{game['name']} already exists!skipping!")
-                break
-
-        if is_add:
+        queryed_item = query_item_from_notion_database(game)
+        if queryed_item["results"] != []:
+            if enable_item_update == "true":
+                logger.info(f"{game['name']} already exists! updating!")
+                update_item_to_notion_database(
+                    queryed_item["results"][0]["id"], game, achievements_info
+                )
+            else:
+                logger.info(f"{game['name']} already exists! skipping!")
+        else:
             logger.info(f"{game['name']} does not exist! creating new item!")
             add_item_to_notion_database(game, achievements_info)
