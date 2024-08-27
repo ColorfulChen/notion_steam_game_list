@@ -12,7 +12,6 @@ NOTION_DATABASE_ID = os.environ.get("NOTION_DATABASE_ID")
 include_played_free_games = os.environ.get("include_played_free_games")
 enable_item_update = os.environ.get("enable_item_update")
 enable_filter = os.environ.get("enable_filter")
-# related to is_record() function to not record some games based on certain rules
 CREATE_DATABASE = os.environ.get("CREATE_DATABASE")
 PAGE_ID = os.environ.get("PAGE_ID")
 
@@ -140,7 +139,7 @@ def add_item_to_notion_database(game, achievements_info):
         response = send_request_with_retry(
             url, headers=headers, json_data=data, method="post"
         )
-        logger.info(f"{game['name']}added!")
+        logger.info(f"{game['name']} added!")
         return response.json()
     except Exception as e:
         logger.error(f"Failed to send request: {e},{response.text}")
@@ -154,7 +153,7 @@ def query_item_from_notion_database(game):
         "Notion-Version": "2022-06-28",
     }
 
-    logger.info(f"querying f'{game['name']}' from database")
+    logger.info(f"querying {game['name']} from database")
     data = {"filter": {"property": "name", "rich_text": {"equals": f"{game['name']}"}}}
 
     try:
