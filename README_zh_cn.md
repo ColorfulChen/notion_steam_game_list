@@ -64,7 +64,8 @@ github action中所用到了如下变量：
 
 详细的获取方法和变量功能在本地部署章节中有详细说明，这里不再赘述。
 
-在你forked过去的仓库页面，点击settings->Secrets and Variables->Actions->New repository screct，添加以上变量即可。注意的是bool类型的数据填入true或者false。
+在你forked过去的仓库页面，点击settings->Secrets and Variables->Actions->New repository screct，添加以上变量即可。注意:include_played_free_games,enable_item_update,enable_filter,CREATE_DATABASE这四个变量需要填入true或者false。
+
 
 ![1724728563407](./image/README_zh_cn/1724728563407.png)
 
