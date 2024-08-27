@@ -52,7 +52,7 @@ github action workflowed used these variables.
           PAGE_ID: ${{ secrets.PAGE_ID }}
 ```
 
-| name                      | 数据类型 | 描述                                                                                        |
+| name                      | type | description                                                                                        |
 | ------------------------- | -------- | ------------------------------------------------------------------------------------------- |
 | STEAM_API_KEY             | string   | steam api key                                                                               |
 | STEAM_USER_ID             | string   | steam user id you want fetch data from                                                      |
