@@ -57,7 +57,7 @@ def get_owned_game_data_from_steam():
     url = url + "key=" + STEAM_API_KEY
     url = url + "&steamid=" + STEAM_USER_ID
     url = url + "&include_appinfo=True"
-    if include_played_free_games:
+    if include_played_free_games == "true":
         url = url + "&include_played_free_games=True"
 
     logger.info("fetching data from steam..")
@@ -310,7 +310,7 @@ def get_achievements_count(game):
 
 if __name__ == "__main__":
 
-    if CREATE_DATABASE:
+    if CREATE_DATABASE == "true":
         database_created = database_create(PAGE_ID)
         NOTION_DATABASE_ID = database_created["id"]
 
@@ -324,7 +324,7 @@ if __name__ == "__main__":
         if "rtime_last_played" not in game:
             game["rtime_last_played"] = 0
 
-        if enable_filter == True and is_record(game, achievements_info) == False:
+        if enable_filter == "true" and is_record(game, achievements_info) == False:
             continue
 
         for item in database_data["results"]:
@@ -333,7 +333,7 @@ if __name__ == "__main__":
                 == game["name"]
             ):  # this item already exists
                 is_add = False
-                if enable_item_update:
+                if enable_item_update == "true":
                     logger.info(f"{game['name']} already exists!updating!")
                     update_item_to_notion_database(item["id"], game, achievements_info)
                 else:
