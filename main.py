@@ -9,11 +9,11 @@ STEAM_USER_ID = os.environ.get("STEAM_USER_ID")
 NOTION_DATABASE_API_KEY = os.environ.get("NOTION_DATABASE_API_KEY")
 NOTION_DATABASE_ID = os.environ.get("NOTION_DATABASE_ID")
 # OPTIONAL
-include_played_free_games = True
-enable_item_update = True
-enable_filter = True
+include_played_free_games = os.environ.get("include_played_free_games")
+enable_item_update = os.environ.get("enable_item_update")
+enable_filter = os.environ.get("enable_filter")
 # related to is_record() function to not record some games based on certain rules
-CREATE_DATABASE = False
+CREATE_DATABASE = os.environ.get("CREATE_DATABASE")
 PAGE_ID = os.environ.get("PAGE_ID")
 
 # MISC

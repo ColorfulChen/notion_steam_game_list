@@ -27,6 +27,11 @@ jobs:
           STEAM_API_KEY: ${{ secrets.STEAM_API_KEY }}
           STEAM_USER_ID: ${{ secrets.STEAM_USER_ID }}
           NOTION_DATABASE_API_KEY: ${{ secrets.NOTION_API_KEY }}
-          PAGE_ID: ${{ secrets.PAGE_ID }}
           NOTION_DATABASE_ID: ${{ secrets.NOTION_DATABASE_ID }}
+          #OPTIONAL
+          include_played_free_games: ${{secrets.include_played_free_games}}
+          enable_item_update: ${{secrets.enable_item_update}}
+          enable_filter: ${{secrets.enable_filter}}
+          CREATE_DATABASE: ${{secrets.CREATE_DATABASE}}
+          PAGE_ID: ${{ secrets.PAGE_ID }}
         run: python main.py
