@@ -66,7 +66,7 @@ github action workflowed used these variables.
 
 The detailed of these variables and what they do are at next chpter (deployed local -> modify config)
 
-open the repository you just forked, press settings->Secrets and Variables->Actions->New repository screct，add these variables. note that  bool variable should be set to 'true' or 'false'
+open the repository you just forked, press settings->Secrets and Variables->Actions->New repository screct，add these variables. note that include_played_free_games，enable_item_update，enable_filter，CREATE_DATABASE variable should be set to 'true' or 'false'
 
 ![1724728563407](./image/README_zh_cn/1724728563407.png)
 
