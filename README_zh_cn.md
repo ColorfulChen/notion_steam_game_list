@@ -4,11 +4,11 @@
 
 ## 描述
 
-该项目通过steamapi可以将指定用户的steam公开游戏库数据导入指定notion数据库中。
+该项目通过steamapi可以将指定用户的steam公开游戏库数据导入指定notion数据库中，并且可以通过Github Action实现自动化部署更新你的数据库。
 
 表格样式如图：
 
-![1724501890766.png](./image/README/1724501890766.png)
+![1724727271538](./image/README_zh_cn/1724727271538.png)
 
 导入的数据如下：
 
@@ -19,8 +19,62 @@
 | 上次游玩日期 | date     |
 | 商店链接     | url      |
 | 游戏logo     | image    |
+| 游戏封面     | image    |
+| 完成度       | number   |
+| 已完成成就数 | number   |
+| 总计成就数   | number   |
 
-## 使用方法
+## 用Github Action实现自动化
+
+### fork该仓库到你的账号下
+
+在页面点击fork即可：
+
+![1724727797319](./image/README_zh_cn/1724727797319.png)
+
+### 配置github action所用的变量
+
+github action中所用到了如下变量：
+
+```yaml
+        env:
+          STEAM_API_KEY: ${{ secrets.STEAM_API_KEY }}
+          STEAM_USER_ID: ${{ secrets.STEAM_USER_ID }}
+          NOTION_DATABASE_API_KEY: ${{ secrets.NOTION_API_KEY }}
+          NOTION_DATABASE_ID: ${{ secrets.NOTION_DATABASE_ID }}
+          #OPTIONAL
+          include_played_free_games: ${{secrets.include_played_free_games}}
+          enable_item_update: ${{secrets.enable_item_update}}
+          enable_filter: ${{secrets.enable_filter}}
+          CREATE_DATABASE: ${{secrets.CREATE_DATABASE}}
+          PAGE_ID: ${{ secrets.PAGE_ID }}
+```
+
+| 名称                      | 数据类型 | 描述                                                            |
+| ------------------------- | -------- | --------------------------------------------------------------- |
+| STEAM_API_KEY             | string   | steamapi密钥                                                    |
+| STEAM_USER_ID             | string   | 要查询用户的steamid                                             |
+| NOTION_DATABASE_API_KEY   | string   | notionapi密钥                                                   |
+| NOTION_DATABASE_ID        | string   | 你需要修改的notion数据库id                                      |
+| include_played_free_games | bool     | 是否包含免费游戏                                                |
+| enable_item_update        | bool     | 是否包含项目更新                                                |
+| enable_filter             | bool     | 是否包含过滤器                                                  |
+| CREATE_DATABASE           | bool     | 是否创建新数据库（设定为‘true’则会忽略NOTION_DATABASE_ID）    |
+| PAGE_ID                   | string   | 创建新数据库所在的页面id（CREATE_DATABASE设定为‘true‘时生效） |
+
+详细的获取方法和变量功能在本地部署章节中有详细说明，这里不再赘述。
+
+在你forked过去的仓库页面，点击settings->Secrets and Variables->Actions->New repository screct，添加以上变量即可。注意的是bool类型的数据填入true或者false。
+
+![1724728563407](./image/README_zh_cn/1724728563407.png)
+
+### 完成！
+
+配置好之后，GitHub Actions应该就可以正常生效了，我写的配置是在每天UTC时间12点更新数据库，你也可以在main.yal文件中修改配置。你也可以手动触发进行测试，点击Actions->Update Notion with Steam Data->Run workflow，则可以手动触发运行！
+
+![1724728824789](./image/README_zh_cn/1724728824789.png)
+
+## 本地部署
 
 ### 修改程序内的配置参数
 
@@ -112,9 +166,7 @@ https://www.notion.so/{workspacename}/{database_id}?v={viewID}
 
 #### enable_filter（OPTIONAL）
 
-是否应用is_record()函数的规则来过滤加入的游戏。
-
-默认的规则是会过滤掉未运行过的游戏，你也可以自行修改。
+是否应用is_record()函数的规则来过滤加入的游戏，你也可以自行修改。
 
 #### CREATE_DATABASE（OPTIONAL）
 

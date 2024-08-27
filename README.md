@@ -6,21 +6,77 @@ Language: English/[中文](./README_zh_cn.md)
 
 this project use notion integration to imported a steam user's game library to notion database via steam api and notion api.
 
-Importerd database is as followes:
+You can also automated this workflow with GithubAction to daily up your notion pages!
 
-![1724501890766.png](./image/README/1724501890766.png)
+the resultis as follows:
 
-imported data are as follows:
+![1724727271538](./image/README_zh_cn/1724727271538.png)
 
-| name        | type   |
-| ----------- | ------ |
-| name        | title  |
-| playtime(h) | number |
-| last play   | date   |
-| store url   | url    |
-| icon        | image  |
+import these data：
 
-## How to use
+| name                        | type   |
+| --------------------------- | ------ |
+| name                        | title  |
+| playtime(h)                 | number |
+| last play                   | date   |
+| store url                   | url    |
+| game logo                   | image  |
+| game cover                  | image  |
+| completion                  | number |
+| achieved achievements count | number |
+|                             | number |
+
+## Automated with Github Action
+
+### Fot this repository
+
+click fork.
+
+![1724727797319](./image/README_zh_cn/1724727797319.png)
+
+### Configure variables
+
+github action workflowed used these variables.
+
+```yaml
+        env:
+          STEAM_API_KEY: ${{ secrets.STEAM_API_KEY }}
+          STEAM_USER_ID: ${{ secrets.STEAM_USER_ID }}
+          NOTION_DATABASE_API_KEY: ${{ secrets.NOTION_API_KEY }}
+          NOTION_DATABASE_ID: ${{ secrets.NOTION_DATABASE_ID }}
+          #OPTIONAL
+          include_played_free_games: ${{secrets.include_played_free_games}}
+          enable_item_update: ${{secrets.enable_item_update}}
+          enable_filter: ${{secrets.enable_filter}}
+          CREATE_DATABASE: ${{secrets.CREATE_DATABASE}}
+          PAGE_ID: ${{ secrets.PAGE_ID }}
+```
+
+| name                      | 数据类型 | 描述                                                                                        |
+| ------------------------- | -------- | ------------------------------------------------------------------------------------------- |
+| STEAM_API_KEY             | string   | steam api key                                                                               |
+| STEAM_USER_ID             | string   | steam user id you want fetch data from                                                      |
+| NOTION_DATABASE_API_KEY   | string   | notion api key                                                                              |
+| NOTION_DATABASE_ID        | string   | the notion data base id you wanted to imported                                              |
+| include_played_free_games | bool     | whether to include free games                                                               |
+| enable_item_update        | bool     | whether to include item update                                                              |
+| enable_filter             | bool     | whether to include item filter                                                              |
+| CREATE_DATABASE           | bool     | whether to create new database<br />（when set to 'true', ignore NOTION_DATABASE_ID）       |
+| PAGE_ID                   | string   | the page id you want to create database at<br />（applys when CREATE_DATABASE set to true） |
+
+The detailed of these variables and what they do are at next chpter (deployed local -> modify config)
+
+open the repository you just forked, press settings->Secrets and Variables->Actions->New repository screct，add these variables. note that  bool variable should be set to 'true' or 'false'
+
+![1724728563407](./image/README_zh_cn/1724728563407.png)
+
+### Done！
+
+This should work now! I set github action to run daily at 12am UTC time, you can change that at main.yml. If you want to trigger mannually, click Actions->Update Notion with Steam Data->Run workflow！
+
+![1724728824789](./image/README_zh_cn/1724728824789.png)
+
+## Deploy Locally
 
 ### modify config
 
@@ -112,9 +168,7 @@ when set to False, the program will skip repeated item in database.
 
 #### enable_filter（OPTIONAL）
 
-whether to use is_record() function to filter added game
-
-the default rules will ignore never played game, you could modified on your own.
+whether to use is_record() function to filter added game. you could modified on your own.
 
 #### CREATE_DATABASE（OPTIONAL）
 
@@ -132,14 +186,14 @@ to get page id is similar with database id. Open the page you want to created da
 
 the PAGE_ID is after the symbol '-'.
 
-### install request library
+### install requests library
 
 assume you have already installed python environment.
 
 if not install python 3.6+ at www.python.org
 
 ```shell
-pip install request
+pip install requests
 ```
 
 ### run the program
