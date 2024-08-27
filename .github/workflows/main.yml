@@ -2,7 +2,7 @@ name: Update Notion with Steam Data
 
 on:
   schedule:
-    - cron: "42 6 * * *"
+    - cron: "05 22 * * *"
   workflow_dispatch:
 
 jobs:
