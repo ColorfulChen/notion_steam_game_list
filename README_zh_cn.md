@@ -56,10 +56,10 @@ github action中所用到了如下变量：
 | STEAM_USER_ID             | string   | 要查询用户的steamid                                             |
 | NOTION_DATABASE_API_KEY   | string   | notionapi密钥                                                   |
 | NOTION_DATABASE_ID        | string   | 你需要修改的notion数据库id                                      |
-| include_played_free_games | bool     | 是否包含免费游戏                                                |
-| enable_item_update        | bool     | 是否包含项目更新                                                |
-| enable_filter             | bool     | 是否包含过滤器                                                  |
-| CREATE_DATABASE           | bool     | 是否创建新数据库（设定为‘true’则会忽略NOTION_DATABASE_ID）    |
+| include_played_free_games | string   | 是否包含免费游戏                                                |
+| enable_item_update        | string   | 是否包含项目更新                                                |
+| enable_filter             | string   | 是否包含过滤器                                                  |
+| CREATE_DATABASE           | string   | 是否创建新数据库（设定为‘true’则会忽略NOTION_DATABASE_ID）    |
 | PAGE_ID                   | string   | 创建新数据库所在的页面id（CREATE_DATABASE设定为‘true‘时生效） |
 
 详细的获取方法和变量功能在本地部署章节中有详细说明，这里不再赘述。
@@ -106,10 +106,10 @@ STEAM_USER_ID = 'xxxx'
 NOTION_DATABASE_API_KEY = 'xxxx'
 NOTION_DATABASE_ID = "xxxx"
 # OPTIONAL
-include_played_free_games = True
-enable_item_update = False
-enable_filter = True
-CREATE_DATABASE = False
+include_played_free_games = 'true'
+enable_item_update = 'false'
+enable_filter = 'true'
+CREATE_DATABASE = 'false'
 PAGE_ID = "xxxx'
 ```
 

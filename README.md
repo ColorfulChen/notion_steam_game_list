@@ -24,7 +24,7 @@ import these data：
 | game cover                  | image  |
 | completion                  | number |
 | achieved achievements count | number |
-|                             | number |
+| total achievements count    | number |
 
 ## Automated with Github Action
 
@@ -52,17 +52,17 @@ github action workflowed used these variables.
           PAGE_ID: ${{ secrets.PAGE_ID }}
 ```
 
-| name                      | type | description                                                                                        |
-| ------------------------- | -------- | ------------------------------------------------------------------------------------------- |
-| STEAM_API_KEY             | string   | steam api key                                                                               |
-| STEAM_USER_ID             | string   | steam user id you want fetch data from                                                      |
-| NOTION_DATABASE_API_KEY   | string   | notion api key                                                                              |
-| NOTION_DATABASE_ID        | string   | the notion data base id you wanted to imported                                              |
-| include_played_free_games | bool     | whether to include free games                                                               |
-| enable_item_update        | bool     | whether to include item update                                                              |
-| enable_filter             | bool     | whether to include item filter                                                              |
-| CREATE_DATABASE           | bool     | whether to create new database<br />（when set to 'true', ignore NOTION_DATABASE_ID）       |
-| PAGE_ID                   | string   | the page id you want to create database at<br />（applys when CREATE_DATABASE set to true） |
+| name                      | type   | description                                                                                 |
+| ------------------------- | ------ | ------------------------------------------------------------------------------------------- |
+| STEAM_API_KEY             | string | steam api key                                                                               |
+| STEAM_USER_ID             | string | steam user id you want fetch data from                                                      |
+| NOTION_DATABASE_API_KEY   | string | notion api key                                                                              |
+| NOTION_DATABASE_ID        | string | the notion data base id you wanted to imported                                              |
+| include_played_free_games | string | whether to include free games                                                               |
+| enable_item_update        | string | whether to include item update                                                              |
+| enable_filter             | string | whether to include item filter                                                              |
+| CREATE_DATABASE           | string | whether to create new database<br />（when set to 'true', ignore NOTION_DATABASE_ID）       |
+| PAGE_ID                   | string | the page id you want to create database at<br />（applys when CREATE_DATABASE set to true） |
 
 The detailed of these variables and what they do are at next chpter (deployed local -> modify config)
 
@@ -108,10 +108,10 @@ STEAM_USER_ID = 'xxxx'
 NOTION_DATABASE_API_KEY = 'xxxx'
 NOTION_DATABASE_ID = "xxxx"
 # OPTIONAL
-include_played_free_games = True
-enable_item_update = False
-enable_filter = True
-CREATE_DATABASE = False
+include_played_free_games = 'true'
+enable_item_update = 'false'
+enable_filter = 'true'
+CREATE_DATABASE = 'false'
 PAGE_ID = "xxxx'
 ```
 
