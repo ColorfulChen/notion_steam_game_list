@@ -321,6 +321,8 @@ if __name__ == "__main__":
         is_add = True
         achievements_info = {}
         achievements_info = get_achievements_count(game)
+        if "rtime_last_played" not in game:
+            game["rtime_last_played"] = 0
 
         if enable_filter == True and is_record(game, achievements_info) == False:
             continue
