@@ -148,10 +148,6 @@ open the database as a full page, and click share->copy link, this link's format
 
 this {database_id} is the database id.
 
-The program also provide a CREATE_DATABASE configuration to create a database and import data to that created database.
-
-configure CREATE_DATABASE to True and the program will ignore {NOTION_DATABASE_ID} and created a database at {PAGE_ID}, and import data to that database.
-
 #### include_played_free_games（OPTIONAL）
 
 whether to include free games.
