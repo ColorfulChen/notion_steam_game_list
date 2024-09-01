@@ -28,7 +28,7 @@ import these data：
 
 ## Automated with Github Action
 
-### Fot this repository
+### Fork this repository
 
 click fork.
 
@@ -52,21 +52,21 @@ github action workflowed used these variables.
           PAGE_ID: ${{ secrets.PAGE_ID }}
 ```
 
-| name                      | type   | description                                                                                 |
-| ------------------------- | ------ | ------------------------------------------------------------------------------------------- |
-| STEAM_API_KEY             | string | steam api key                                                                               |
-| STEAM_USER_ID             | string | steam user id you want fetch data from                                                      |
-| NOTION_DATABASE_API_KEY   | string | notion api key                                                                              |
-| NOTION_DATABASE_ID        | string | the notion data base id you wanted to imported                                              |
-| include_played_free_games | string | whether to include free games                                                               |
-| enable_item_update        | string | whether to include item update                                                              |
-| enable_filter             | string | whether to include item filter                                                              |
-| CREATE_DATABASE           | string | whether to create new database<br />（when set to 'true', ignore NOTION_DATABASE_ID）       |
-| PAGE_ID                   | string | the page id you want to create database at<br />（applys when CREATE_DATABASE set to true） |
+| name                      | type   | description                                    |
+| ------------------------- | ------ | ---------------------------------------------- |
+| STEAM_API_KEY             | string | steam api key                                  |
+| STEAM_USER_ID             | string | steam user id you want fetch data from         |
+| NOTION_DATABASE_API_KEY   | string | notion api key                                 |
+| NOTION_DATABASE_ID        | string | the notion data base id you wanted to imported |
+| include_played_free_games | string | whether to include free games                  |
+| enable_item_update        | string | whether to include item update                 |
+| enable_filter             | string | whether to include item filter                 |
 
-The detailed of these variables and what they do are at next chpter (deployed local -> modify config)
+The detailed of these variables and what they do are at next chpter.(deployed local -> modify config)
 
-open the repository you just forked, press settings->Secrets and Variables->Actions->New repository screct，add these variables. note that include_played_free_games，enable_item_update，enable_filter，CREATE_DATABASE variable should be set to 'true' or 'false'
+And you should create and connect your database to the notion intergration, Details are at [Build your first integration (notion.com)](https://developers.notion.com/docs/create-a-notion-integration), and in next chpater.
+
+open the repository you just forked, press settings->Secrets and Variables->Actions->New repository screct，add these variables. note that include_played_free_games，enable_item_update，enable_filter variable should be set to 'true' or 'false'
 
 ![1724728563407](./image/README_zh_cn/1724728563407.png)
 
@@ -111,8 +111,6 @@ NOTION_DATABASE_ID = "xxxx"
 include_played_free_games = 'true'
 enable_item_update = 'false'
 enable_filter = 'true'
-CREATE_DATABASE = 'false'
-PAGE_ID = "xxxx'
 ```
 
 #### STEAM_API_KEY
@@ -129,7 +127,7 @@ The steam user you want to get steam game library data from, The user is could g
 
 NOTION integration apikey，you should create a intergration, and create a connection at the page where your database at.
 
-follows the instruction as notion develop documents shows in "getting start" chapter[Build your first integration (notion.com)](https://developers.notion.com/docs/create-a-notion-integration)
+follows the instruction as notion develop documents shows in "getting start" chapter [Build your first integration (notion.com)](https://developers.notion.com/docs/create-a-notion-integration)
 
 This “API secret”  the document refer to  is NOTION_DATABASE_API_KEY。
 
@@ -143,6 +141,9 @@ the database should contains these item with exact name and data type as the bra
 - playtime(number)
 - last play(date)
 - store url(url)
+- compeletion(number)
+- total achievements(number)
+- achieved achievements(number)
 
 the database id could get from its share link.
 
@@ -169,22 +170,6 @@ when set to False, the program will skip repeated item in database.
 #### enable_filter（OPTIONAL）
 
 whether to use is_record() function to filter added game. you could modified on your own.
-
-#### CREATE_DATABASE（OPTIONAL）
-
-whether to create new database, to use this you need to configure {PAGE_ID}.
-
-CREATE_DATABASE to True and the program will ignore {NOTION_DATABASE_ID} and created a database at {PAGE_ID}, and import data to that database.
-
-#### PAGE_ID（OPTIONAL）
-
-when CREATE_DATABASE is set to False this configuration would be ignored.
-
-to get page id is similar with database id. Open the page you want to created database to as full page, click share->copy link, the link's format is as follows:
-
-[https://www.notion.so/{WORKSPACE}/{PAGE_TITLE}-{PAGE_ID}](https://www.notion.so/%7BWORKSPACE%7D/%7BPAGE_TITLE%7D-%7BPAGE_ID%7D)
-
-the PAGE_ID is after the symbol '-'.
 
 ### install requests library
 

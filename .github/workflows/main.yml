@@ -31,6 +31,4 @@ jobs:
           include_played_free_games: ${{secrets.include_played_free_games}}
           enable_item_update: ${{secrets.enable_item_update}}
           enable_filter: ${{secrets.enable_filter}}
-          CREATE_DATABASE: ${{secrets.CREATE_DATABASE}}
-          PAGE_ID: ${{ secrets.PAGE_ID }}
         run: python main.py

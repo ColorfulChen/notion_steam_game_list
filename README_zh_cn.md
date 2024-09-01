@@ -46,26 +46,23 @@ github action中所用到了如下变量：
           include_played_free_games: ${{secrets.include_played_free_games}}
           enable_item_update: ${{secrets.enable_item_update}}
           enable_filter: ${{secrets.enable_filter}}
-          CREATE_DATABASE: ${{secrets.CREATE_DATABASE}}
-          PAGE_ID: ${{ secrets.PAGE_ID }}
 ```
 
-| 名称                      | 数据类型 | 描述                                                            |
-| ------------------------- | -------- | --------------------------------------------------------------- |
-| STEAM_API_KEY             | string   | steamapi密钥                                                    |
-| STEAM_USER_ID             | string   | 要查询用户的steamid                                             |
-| NOTION_DATABASE_API_KEY   | string   | notionapi密钥                                                   |
-| NOTION_DATABASE_ID        | string   | 你需要修改的notion数据库id                                      |
-| include_played_free_games | string   | 是否包含免费游戏                                                |
-| enable_item_update        | string   | 是否包含项目更新                                                |
-| enable_filter             | string   | 是否包含过滤器                                                  |
-| CREATE_DATABASE           | string   | 是否创建新数据库（设定为‘true’则会忽略NOTION_DATABASE_ID）    |
-| PAGE_ID                   | string   | 创建新数据库所在的页面id（CREATE_DATABASE设定为‘true‘时生效） |
+| 名称                      | 数据类型 | 描述                       |
+| ------------------------- | -------- | -------------------------- |
+| STEAM_API_KEY             | string   | steamapi密钥               |
+| STEAM_USER_ID             | string   | 要查询用户的steamid        |
+| NOTION_DATABASE_API_KEY   | string   | notionapi密钥              |
+| NOTION_DATABASE_ID        | string   | 你需要修改的notion数据库id |
+| include_played_free_games | string   | 是否包含免费游戏           |
+| enable_item_update        | string   | 是否包含项目更新           |
+| enable_filter             | string   | 是否包含过滤器             |
 
 详细的获取方法和变量功能在本地部署章节中有详细说明，这里不再赘述。
 
-在你forked过去的仓库页面，点击settings->Secrets and Variables->Actions->New repository screct，添加以上变量即可。注意:include_played_free_games,enable_item_update,enable_filter,CREATE_DATABASE这四个变量需要填入true或者false。
+注：数据库按照下一章的格式创建，并且需要连接到你的notion intergration中，详细操作在下一章。
 
+在你forked过去的仓库页面，点击settings->Secrets and Variables->Actions->New repository screct，添加以上变量即可。注意:include_played_free_games,enable_item_update,enable_filter这四个变量需要填入true或者false。
 
 ![1724728563407](./image/README_zh_cn/1724728563407.png)
 
@@ -88,12 +85,9 @@ STEAM_USER_ID = os.environ.get("STEAM_USER_ID")
 NOTION_DATABASE_API_KEY = os.environ.get("NOTION_DATABASE_API_KEY")
 NOTION_DATABASE_ID = "63b4fd39830b4946b1c91d65b90a7848"
 # OPTIONAL
-include_played_free_games = True
-enable_item_update = False
-enable_filter = True
-# related to is_record() function to not record some games based on certain rules
-CREATE_DATABASE = False
-PAGE_ID = "a6c344eee16c46909f7525601282cdbb"
+include_played_free_games = 'true'
+enable_item_update = 'true'
+enable_filter = ‘false'
 ```
 
 你需要将这里的配置改成你自己的密钥
@@ -142,6 +136,9 @@ NOTION应用整合的apikey，你需要在notion中创建connection，并将你�
 - playtime(number)
 - last play(date)
 - store url(url)
+- completion(number)
+- achieved achievements(number)
+- total achievements(number)
 
 数据库的id获取方法如下：
 
@@ -158,34 +155,6 @@ https://www.notion.so/{workspacename}/{database_id}?v={viewID}
 #### include_played_free_games（OPTIONAL）
 
 是否包含免费游戏
-
-#### enable_item_update（OPTIONAL）
-
-设定为True，程序在数据库中遇到已经添加的项目，会更新该项目。
-
-设定为False，则跳过该项目。
-
-#### enable_filter（OPTIONAL）
-
-是否应用is_record()函数的规则来过滤加入的游戏，你也可以自行修改。
-
-#### CREATE_DATABASE（OPTIONAL）
-
-是否创建新数据库，使用该选项需要配置PAGE_ID项目。
-
-如果设定为True的话，程序则会把游戏数据导入到这个新创建的数据库中，忽略{NOTION_DATABASE_ID}配置项。
-
-如果要使用该配置，需要配置{PAGE_ID}项，指定要创建的数据库所在的页面。
-
-#### PAGE_ID（OPTIONAL）
-
-当CREATE_DATABASE设定为False时会忽略这个选项。
-
-获取方式和数据库id类似，将页面单独打开一个页面，点击share-copy link，分享链接格式如下：
-
-https://www.notion.so/{WORKSPACE}/{PAGE_TITLE}-{PAGE_ID}
-
-'-'后面的则是页面id。
 
 ### 安装requests库
 

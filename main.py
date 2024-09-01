@@ -12,8 +12,6 @@ NOTION_DATABASE_ID = os.environ.get("NOTION_DATABASE_ID")
 include_played_free_games = os.environ.get("include_played_free_games")
 enable_item_update = os.environ.get("enable_item_update")
 enable_filter = os.environ.get("enable_filter")
-CREATE_DATABASE = os.environ.get("CREATE_DATABASE")
-PAGE_ID = os.environ.get("PAGE_ID")
 
 # MISC
 MAX_RETRIES = 20
@@ -308,11 +306,6 @@ def get_achievements_count(game):
 
 
 if __name__ == "__main__":
-
-    if CREATE_DATABASE == "true":
-        database_created = database_create(PAGE_ID)
-        NOTION_DATABASE_ID = database_created["id"]
-
     owned_game_data = get_owned_game_data_from_steam()
 
     for game in owned_game_data["response"]["games"]:
