@@ -48,8 +48,6 @@ github action workflowed used these variables.
           include_played_free_games: ${{secrets.include_played_free_games}}
           enable_item_update: ${{secrets.enable_item_update}}
           enable_filter: ${{secrets.enable_filter}}
-          CREATE_DATABASE: ${{secrets.CREATE_DATABASE}}
-          PAGE_ID: ${{ secrets.PAGE_ID }}
 ```
 
 | name                      | type   | description                                    |
@@ -92,9 +90,6 @@ NOTION_DATABASE_ID = "63b4fd39830b4946b1c91d65b90a7848"
 include_played_free_games = True
 enable_item_update = False
 enable_filter = True
-# related to is_record() function to not record some games based on certain rules
-CREATE_DATABASE = False
-PAGE_ID = "a6c344eee16c46909f7525601282cdbb"
 ```
 
 You should replace these config with your own api keys.
