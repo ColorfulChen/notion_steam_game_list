@@ -104,8 +104,6 @@ NOTION_DATABASE_ID = "xxxx"
 include_played_free_games = 'true'
 enable_item_update = 'false'
 enable_filter = 'true'
-CREATE_DATABASE = 'false'
-PAGE_ID = "xxxx'
 ```
 
 配置说明如下：
