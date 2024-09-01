@@ -146,10 +146,6 @@ https://www.notion.so/{workspacename}/{database_id}?v={viewID}
 
 这里的{database_id}就是我们需要的数据库id。
 
-程序也提供了一个CREATE_DATABASE的配置选项来创建数据库，如果配置了CREATE_DATABASE = TRUE，那么程序会在指定的页面创建一个新的数据库，并将steam游戏库数据导入这个数据库中，这样就不需要配置NOTION_DATABASE_ID选项。
-
-但是要使用这个功能需要配置PAGE_ID选项，指定程序生成数据库的页面位置。
-
 #### include_played_free_games（OPTIONAL）
 
 是否包含免费游戏
