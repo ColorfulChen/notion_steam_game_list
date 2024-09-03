@@ -64,7 +64,7 @@ def get_owned_game_data_from_steam():
         logger.info("fetching data success!")
         return response.json()
     except Exception as e:
-        logger.error(f"Failed to send request: {e},{response.text}")
+        logger.error(f"Failed to send request: {e}")
 
 
 def query_achievements_info_from_steam(game):
@@ -140,7 +140,7 @@ def add_item_to_notion_database(game, achievements_info):
         logger.info(f"{game['name']} added!")
         return response.json()
     except Exception as e:
-        logger.error(f"Failed to send request: {e},{response.text}")
+        logger.error(f"Failed to send request: {e}.")
 
 
 def query_item_from_notion_database(game):
@@ -161,7 +161,7 @@ def query_item_from_notion_database(game):
         logger.info(f"query complete!")
         return response.json()
     except Exception as e:
-        logger.error(f"Failed to send request: {e},{response.text}")
+        logger.error(f"Failed to send request: {e}.")
 
 
 def update_item_to_notion_database(page_id, game, achievements_info):
@@ -221,7 +221,7 @@ def update_item_to_notion_database(page_id, game, achievements_info):
         logger.info(f"{game['name']} updated!")
         return response.json()
     except Exception as e:
-        logger.error(f"Failed to send request: {e},{response.text}")
+        logger.error(f"Failed to send request: {e}.")
 
 
 def database_create(page_id):
