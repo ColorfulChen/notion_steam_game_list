@@ -70,10 +70,14 @@ def query_achievements_info_from_steam(game):
     url = url + "key=" + STEAM_API_KEY
     url = url + "&steamid=" + STEAM_USER_ID
     url = url + "&appid=" + f"{game['appid']}"
-
     logger.info(f"querying for {game['name']} achievements counts...")
-    response = requests.get(url)
-    return response.json()
+
+    try:
+        response = send_request_with_retry(url, method="get")
+        logger.info("fetching data success!")
+        return response.json()
+    except Exception as e:
+        logger.error(f"Failed to send request: {e}")
 
 
 # notionapi
@@ -321,7 +325,7 @@ if __name__ == "__main__":
         if "results" not in queryed_item:
             logger.error(f"{game['name']} queryed failed! skipping!")
             continue
-        
+
         if queryed_item["results"] != []:
             if enable_item_update == "true":
                 logger.info(f"{game['name']} already exists! updating!")
