@@ -38,7 +38,7 @@ def send_request_with_retry(
             response.raise_for_status()  # 如果响应状态码不是200系列，则抛出HTTPError异常
             return response
         except requests.exceptions.RequestException as e:
-            logger.error(f"Request Exception occurred: {e}.Retring")
+            logger.error(f"Request Exception occurred: <{e}> Retring....")
             retries -= 1
             if retries > 0:
                 time.sleep(RETRY_DELAY)  # 等待一段时间后再重试
