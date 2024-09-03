@@ -71,13 +71,8 @@ def query_achievements_info_from_steam(game):
     url = url + "&steamid=" + STEAM_USER_ID
     url = url + "&appid=" + f"{game['appid']}"
     logger.info(f"querying for {game['name']} achievements counts...")
-
-    try:
-        response = send_request_with_retry(url, method="get")
-        logger.info("fetching data success!")
-        return response.json()
-    except Exception as e:
-        logger.error(f"Failed to send request: {e}")
+    response = requests.get(url)
+    return response.json()
 
 
 # notionapi
