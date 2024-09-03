@@ -311,12 +311,17 @@ if __name__ == "__main__":
         achievements_info = {}
         achievements_info = get_achievements_count(game)
         if "rtime_last_played" not in game:
+            logger.info(f"{game['name']} have no last play time! setting to 0!")
             game["rtime_last_played"] = 0
 
         if enable_filter == "true" and is_record(game, achievements_info) == False:
             continue
 
         queryed_item = query_item_from_notion_database(game)
+        if "results" not in queryed_item:
+            logger.error(f"{game['name']} queryed failed! skipping!")
+            continue
+        
         if queryed_item["results"] != []:
             if enable_item_update == "true":
                 logger.info(f"{game['name']} already exists! updating!")
