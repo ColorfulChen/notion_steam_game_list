@@ -44,8 +44,6 @@ def send_request_with_retry(
                 time.sleep(RETRY_DELAY)  # 等待一段时间后再重试
             else:
                 logger.error("Max retries exceeded. Giving up.")
-                raise
-            raise
 
 
 # steamapi
