@@ -44,6 +44,7 @@ def send_request_with_retry(
                 time.sleep(RETRY_DELAY)  # 等待一段时间后再重试
             else:
                 logger.error("Max retries exceeded. Giving up.")
+                return {}
 
 
 # steamapi
@@ -156,10 +157,10 @@ def query_item_from_notion_database(game):
             url, headers=headers, json_data=data, method="post"
         )
         logger.info(f"query complete!")
-        return response.json()
     except Exception as e:
         logger.error(f"Failed to send request: {e}.")
-        return {}
+    finally:
+        return response.json()
 
 
 def update_item_to_notion_database(page_id, game, achievements_info):
