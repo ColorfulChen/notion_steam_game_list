@@ -159,6 +159,7 @@ def query_item_from_notion_database(game):
         return response.json()
     except Exception as e:
         logger.error(f"Failed to send request: {e}.")
+        return {}
 
 
 def update_item_to_notion_database(page_id, game, achievements_info):
