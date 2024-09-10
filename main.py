@@ -327,6 +327,9 @@ if __name__ == "__main__":
             if enable_item_update == "true":
                 logger.info(f"{game['name']} already exists!")
                 playtime = round(float(game["playtime_forever"]) / 60, 1)
+
+                print(queryed_item["results"][0])
+
                 if queryed_item["results"][0]["playtime"] == playtime:
                     logger.info(f"{game['name']} does not need to update! Skipping!")
                 else:
