@@ -325,10 +325,15 @@ if __name__ == "__main__":
 
         if queryed_item["results"] != []:
             if enable_item_update == "true":
-                logger.info(f"{game['name']} already exists! updating!")
-                update_item_to_notion_database(
-                    queryed_item["results"][0]["id"], game, achievements_info
-                )
+                logger.info(f"{game['name']} already exists!")
+                playtime = round(float(game["playtime_forever"]) / 60, 1)
+                if queryed_item["results"][0]["playtime"] == playtime:
+                    logger.info(f"{game['name']} does not need to update! Skipping!")
+                else:
+                    logger.info(f"{game['name']} need to update! Updating!")
+                    update_item_to_notion_database(
+                        queryed_item["results"][0]["id"], game, achievements_info
+                    )
             else:
                 logger.info(f"{game['name']} already exists! skipping!")
         else:
