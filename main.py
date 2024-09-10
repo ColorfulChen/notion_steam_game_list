@@ -330,7 +330,7 @@ if __name__ == "__main__":
 
                 print(queryed_item["results"][0])
 
-                if queryed_item["results"][0]["playtime"] == playtime:
+                if queryed_item["results"][0]["properties"]["playtime"]["number"] == playtime:
                     logger.info(f"{game['name']} does not need to update! Skipping!")
                 else:
                     logger.info(f"{game['name']} need to update! Updating!")
