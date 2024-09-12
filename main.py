@@ -328,7 +328,14 @@ if __name__ == "__main__":
                 logger.info(f"{game['name']} already exists!")
                 playtime = round(float(game["playtime_forever"]) / 60, 1)
 
-                if queryed_item["results"][0]["properties"]["playtime"]["number"] == playtime:
+                if (
+                    queryed_item["results"][0]["properties"]["playtime"]["number"]
+                    == playtime
+                    and queryed_item["results"][0]["properties"]["total achievements"][
+                        "number"
+                    ]
+                    == achievements_info["total"]
+                ):
                     logger.info(f"{game['name']} does not need to update! Skipping!")
                 else:
                     logger.info(f"{game['name']} need to update! Updating!")
