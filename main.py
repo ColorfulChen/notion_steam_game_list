@@ -72,8 +72,12 @@ def query_achievements_info_from_steam(game):
     url = url + "&steamid=" + STEAM_USER_ID
     url = url + "&appid=" + f"{game['appid']}"
     logger.info(f"querying for {game['name']} achievements counts...")
-    response = requests.get(url)
-    return response.json()
+    try:
+        response = requests.get(url)
+        return response.json()
+    except Exception as e:
+        logger.error(f"Failed to query achievements for game {game['name']}: {e}")
+        return {} 
 
 
 # notionapi
@@ -282,7 +286,7 @@ def get_achievements_count(game):
     achievements_info["total"] = 0
     achievements_info["achieved"] = 0
 
-    if game_achievements["playerstats"]["success"] is False:
+    if game_achievements == {} or game_achievements["playerstats"]["success"] is False:
         achievements_info["total"] = -1
         achievements_info["achieved"] = -1
         logger.info(f"no info for game {game['name']}")
