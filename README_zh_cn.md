@@ -43,9 +43,7 @@ github action中所用到了如下变量：
           NOTION_DATABASE_API_KEY: ${{ secrets.NOTION_API_KEY }}
           NOTION_DATABASE_ID: ${{ secrets.NOTION_DATABASE_ID }}
           #OPTIONAL
-          include_played_free_games: ${{secrets.include_played_free_games}}
           enable_item_update: ${{secrets.enable_item_update}}
-          enable_filter: ${{secrets.enable_filter}}
 ```
 
 | 名称                      | 数据类型 | 描述                       |
@@ -54,9 +52,8 @@ github action中所用到了如下变量：
 | STEAM_USER_ID             | string   | 要查询用户的steamid        |
 | NOTION_DATABASE_API_KEY   | string   | notionapi密钥              |
 | NOTION_DATABASE_ID        | string   | 你需要修改的notion数据库id |
-| include_played_free_games | string   | 是否包含免费游戏           |
 | enable_item_update        | string   | 是否包含项目更新           |
-| enable_filter             | string   | 是否包含过滤器             |
+
 
 详细的获取方法和变量功能在本地部署章节中有详细说明，这里不再赘述。
 
@@ -85,9 +82,7 @@ STEAM_USER_ID = os.environ.get("STEAM_USER_ID")
 NOTION_DATABASE_API_KEY = os.environ.get("NOTION_DATABASE_API_KEY")
 NOTION_DATABASE_ID = "63b4fd39830b4946b1c91d65b90a7848"
 # OPTIONAL
-include_played_free_games = 'true'
 enable_item_update = 'true'
-enable_filter = ‘false'
 ```
 
 你需要将这里的配置改成你自己的密钥
@@ -101,9 +96,7 @@ STEAM_USER_ID = 'xxxx'
 NOTION_DATABASE_API_KEY = 'xxxx'
 NOTION_DATABASE_ID = "xxxx"
 # OPTIONAL
-include_played_free_games = 'true'
 enable_item_update = 'false'
-enable_filter = 'true'
 ```
 
 配置说明如下：
@@ -146,9 +139,8 @@ https://www.notion.so/{workspacename}/{database_id}?v={viewID}
 
 这里的{database_id}就是我们需要的数据库id。
 
-#### include_played_free_games（OPTIONAL）
-
-是否包含免费游戏
+#### enable_item_update
+控制遇到重复游戏时应该跳过还是更新数据，设置为true或者false。默认为true。
 
 ### 安装requests库
 

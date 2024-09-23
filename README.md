@@ -4,11 +4,11 @@ Language: English/[中文](./README_zh_cn.md)
 
 ## description
 
-this project use notion integration to imported a steam user's game library to notion database via steam api and notion api.
+this project use notion integration to import a steam user's game library to notion database via steam api and notion api.
 
-You can also automated this workflow with GithubAction to daily up your notion pages!
+You can also automated this workflow with Github Actions to daily update your notion pages!
 
-the resultis as follows:
+the results are as follows:
 
 ![1724727271538](./image/README_zh_cn/1724727271538.png)
 
@@ -45,9 +45,7 @@ github action workflowed used these variables.
           NOTION_DATABASE_API_KEY: ${{ secrets.NOTION_API_KEY }}
           NOTION_DATABASE_ID: ${{ secrets.NOTION_DATABASE_ID }}
           #OPTIONAL
-          include_played_free_games: ${{secrets.include_played_free_games}}
           enable_item_update: ${{secrets.enable_item_update}}
-          enable_filter: ${{secrets.enable_filter}}
 ```
 
 | name                      | type   | description                                    |
@@ -56,9 +54,7 @@ github action workflowed used these variables.
 | STEAM_USER_ID             | string | steam user id you want fetch data from         |
 | NOTION_DATABASE_API_KEY   | string | notion api key                                 |
 | NOTION_DATABASE_ID        | string | the notion data base id you wanted to imported |
-| include_played_free_games | string | whether to include free games                  |
 | enable_item_update        | string | whether to include item update                 |
-| enable_filter             | string | whether to include item filter                 |
 
 The detailed of these variables and what they do are at next chpter.(deployed local -> modify config)
 
@@ -87,9 +83,7 @@ STEAM_USER_ID = os.environ.get("STEAM_USER_ID")
 NOTION_DATABASE_API_KEY = os.environ.get("NOTION_DATABASE_API_KEY")
 NOTION_DATABASE_ID = "63b4fd39830b4946b1c91d65b90a7848"
 # OPTIONAL
-include_played_free_games = 'true'
 enable_item_update = 'true'
-enable_filter = ‘false'
 ```
 
 You should replace these config with your own api keys.
@@ -103,9 +97,7 @@ STEAM_USER_ID = 'xxxx'
 NOTION_DATABASE_API_KEY = 'xxxx'
 NOTION_DATABASE_ID = "xxxx"
 # OPTIONAL
-include_played_free_games = 'true'
 enable_item_update = 'false'
-enable_filter = 'true'
 ```
 
 #### STEAM_API_KEY
@@ -148,19 +140,9 @@ open the database as a full page, and click share->copy link, this link's format
 
 this {database_id} is the database id.
 
-#### include_played_free_games（OPTIONAL）
-
-whether to include free games.
-
 #### enable_item_update（OPTIONAL）
 
-when set to True, the program will updated repeated item in database.
-
-when set to False, the program will skip repeated item in database.
-
-#### enable_filter（OPTIONAL）
-
-whether to use is_record() function to filter added game. you could modified on your own.
+choose to update or to skip when encounter repeated item, set to 'true' or 'false'. Set to true by default.
 
 ### install requests library
 

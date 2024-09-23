@@ -9,9 +9,7 @@ STEAM_USER_ID = os.environ.get("STEAM_USER_ID")
 NOTION_DATABASE_API_KEY = os.environ.get("NOTION_DATABASE_API_KEY")
 NOTION_DATABASE_ID = os.environ.get("NOTION_DATABASE_ID")
 # OPTIONAL
-include_played_free_games = os.environ.get("include_played_free_games")
-enable_item_update = os.environ.get("enable_item_update")
-enable_filter = os.environ.get("enable_filter")
+enable_item_update = 'true' or os.environ.get("enable_item_update")
 
 # MISC
 MAX_RETRIES = 20
@@ -53,8 +51,7 @@ def get_owned_game_data_from_steam():
     url = url + "key=" + STEAM_API_KEY
     url = url + "&steamid=" + STEAM_USER_ID
     url = url + "&include_appinfo=True"
-    if include_played_free_games == "true":
-        url = url + "&include_played_free_games=True"
+    url = url + "&include_played_free_games=True"
 
     logger.info("fetching data from steam..")
 
@@ -262,24 +259,6 @@ def database_create(page_id):
         logger.error(f"Failed to send request: {e}")
 
 
-# MISC
-def is_record(game, achievements):
-    not_record_time = "2020-01-01 00:00:00"
-    time_tuple = time.strptime(not_record_time, "%Y-%m-%d %H:%M:%S")
-    timestamp = time.mktime(time_tuple)
-    playtime = round(float(game["playtime_forever"]) / 60, 1)
-
-    if (playtime < 0.1 and achievements["total"] < 1) or (
-        game["rtime_last_played"] < timestamp
-        and achievements["total"] < 1
-        and playtime < 6
-    ):
-        logger.info(f"{game['name']} does not meet filter rule!")
-        return False
-
-    return True
-
-
 def get_achievements_count(game):
     game_achievements = query_achievements_info_from_steam(game)
     achievements_info = {}
@@ -318,9 +297,6 @@ if __name__ == "__main__":
         if "rtime_last_played" not in game:
             logger.info(f"{game['name']} have no last play time! setting to 0!")
             game["rtime_last_played"] = 0
-
-        if enable_filter == "true" and is_record(game, achievements_info) == False:
-            continue
 
         queryed_item = query_item_from_notion_database(game)
         if "results" not in queryed_item:
