@@ -6,7 +6,7 @@ import logging
 # CONFIG
 STEAM_API_KEY = os.environ.get("STEAM_API_KEY")
 STEAM_USER_ID = os.environ.get("STEAM_USER_ID")
-NOTION_DATABASE_API_KEY = os.environ.get("NOTION_DATABASE_API_KEY")
+NOTION_API_KEY = os.environ.get("NOTION_API_KEY")
 NOTION_DATABASE_ID = os.environ.get("NOTION_DATABASE_ID")
 # OPTIONAL
 include_played_free_games = os.environ.get("include_played_free_games")
@@ -80,7 +80,7 @@ def query_achievements_info_from_steam(game):
 def add_item_to_notion_database(game, achievements_info):
     url = "https://api.notion.com/v1/pages"
     headers = {
-        "Authorization": f"Bearer {NOTION_DATABASE_API_KEY}",
+        "Authorization": f"Bearer {NOTION_API_KEY}",
         "Content-Type": "application/json",
         "Notion-Version": "2022-06-28",
     }
@@ -144,7 +144,7 @@ def add_item_to_notion_database(game, achievements_info):
 def query_item_from_notion_database(game):
     url = f"https://api.notion.com/v1/databases/{NOTION_DATABASE_ID}/query"
     headers = {
-        "Authorization": f"Bearer {NOTION_DATABASE_API_KEY}",
+        "Authorization": f"Bearer {NOTION_API_KEY}",
         "Content-Type": "application/json",
         "Notion-Version": "2022-06-28",
     }
@@ -166,7 +166,7 @@ def query_item_from_notion_database(game):
 def update_item_to_notion_database(page_id, game, achievements_info):
     url = f"https://api.notion.com/v1/pages/{page_id}"
     headers = {
-        "Authorization": f"Bearer {NOTION_DATABASE_API_KEY}",
+        "Authorization": f"Bearer {NOTION_API_KEY}",
         "Content-Type": "application/json",
         "Notion-Version": "2022-06-28",
     }
@@ -227,7 +227,7 @@ def database_create(page_id):
     url = "https://api.notion.com/v1/databases/"
 
     headers = {
-        "Authorization": f"Bearer {NOTION_DATABASE_API_KEY}",
+        "Authorization": f"Bearer {NOTION_API_KEY}",
         "Content-Type": "application/json",
         "Notion-Version": "2022-06-28",
     }
