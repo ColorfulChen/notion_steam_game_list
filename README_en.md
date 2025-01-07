@@ -42,7 +42,7 @@ github action workflowed used these variables.
         env:
           STEAM_API_KEY: ${{ secrets.STEAM_API_KEY }}
           STEAM_USER_ID: ${{ secrets.STEAM_USER_ID }}
-          NOTION_DATABASE_API_KEY: ${{ secrets.NOTION_API_KEY }}
+          NOTION_API_KEY: ${{ secrets.NOTION_API_KEY }}
           NOTION_DATABASE_ID: ${{ secrets.NOTION_DATABASE_ID }}
           #OPTIONAL
           include_played_free_games: ${{secrets.include_played_free_games}}
@@ -54,7 +54,7 @@ github action workflowed used these variables.
 | ------------------------- | ------ | ---------------------------------------------- |
 | STEAM_API_KEY             | string | steam api key                                  |
 | STEAM_USER_ID             | string | steam user id you want fetch data from         |
-| NOTION_DATABASE_API_KEY   | string | notion api key                                 |
+| NOTION_API_KEY   | string | notion api key                                 |
 | NOTION_DATABASE_ID        | string | the notion data base id you wanted to imported |
 | include_played_free_games | string | whether to include free games                  |
 | enable_item_update        | string | whether to include item update                 |
@@ -84,7 +84,7 @@ Modify configuration in main.py, the configurations are as follows:
 # CONFIG
 STEAM_API_KEY = os.environ.get("STEAM_API_KEY")
 STEAM_USER_ID = os.environ.get("STEAM_USER_ID")
-NOTION_DATABASE_API_KEY = os.environ.get("NOTION_DATABASE_API_KEY")
+NOTION_API_KEY = os.environ.get("NOTION_API_KEY")
 NOTION_DATABASE_ID = "63b4fd39830b4946b1c91d65b90a7848"
 # OPTIONAL
 include_played_free_games = 'true'
@@ -100,7 +100,7 @@ After Modified the configuration should looks like this:
 # CONFIG
 STEAM_API_KEY = 'xxxx'
 STEAM_USER_ID = 'xxxx'
-NOTION_DATABASE_API_KEY = 'xxxx'
+NOTION_API_KEY = 'xxxx'
 NOTION_DATABASE_ID = "xxxx"
 # OPTIONAL
 include_played_free_games = 'true'
@@ -118,19 +118,19 @@ The steam user you want to get steam game library data from, The user is could g
 
 [https://steamcommunity.com/profiles/{STEAM_USER_ID}](https://steamcommunity.com/profiles/%7BSTEAM_USER_ID%7D)
 
-#### NOTION_DATABASE_API_KEY
+#### NOTION_API_KEY
 
 NOTION integration apikey，you should create a intergration, and create a connection at the page where your database at.
 
 follows the instruction as notion develop documents shows in "getting start" chapter [Build your first integration (notion.com)](https://developers.notion.com/docs/create-a-notion-integration)
 
-This “API secret”  the document refer to  is NOTION_DATABASE_API_KEY。
+This “API secret”  the document refer to  is NOTION_API_KEY.
 
 #### NOTION_DATABASE_ID
 
 the database you want to import to's id, before import you should make sure this database's page is added to connection with the itergration you created.
 
-the database should contains these item with exact name and data type as the bracket shows.
+the program search and modify the elements based on the name and data type of the database, so you have to ensure the database you created has the exact same name and data type as below:
 
 - name(title)
 - playtime(number)
