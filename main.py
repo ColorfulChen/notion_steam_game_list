@@ -72,8 +72,19 @@ def query_achievements_info_from_steam(game):
     url = url + "&steamid=" + STEAM_USER_ID
     url = url + "&appid=" + f"{game['appid']}"
     logger.info(f"querying for {game['name']} achievements counts...")
-    response = requests.get(url)
-    return response.json()
+
+    try:
+        response = requests.get(url)
+        response.raise_for_status()  # 检查HTTP错误状态码（非2XX/3XX会抛出异常）
+        return response.json()
+    except requests.exceptions.RequestException as e:
+        # 捕获所有requests库抛出的异常（如连接错误、超时、HTTP错误等）
+        logger.error(f"Request failed for {game['name']}: {str(e)}")
+    except ValueError as e:
+        # 捕获JSON解析错误（如返回非JSON数据）
+        logger.error(f"Failed to parse JSON response for {game['name']}: {str(e)}")
+
+    return None
 
 
 # notionapi
@@ -282,7 +293,7 @@ def get_achievements_count(game):
     achievements_info["total"] = 0
     achievements_info["achieved"] = 0
 
-    if game_achievements["playerstats"]["success"] is False:
+    if game_achievements is None or game_achievements["playerstats"]["success"] is False:
         achievements_info["total"] = -1
         achievements_info["achieved"] = -1
         logger.info(f"no info for game {game['name']}")
