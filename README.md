@@ -39,13 +39,19 @@ github action中所用到了如下变量：
 ```yaml
         env:
           STEAM_API_KEY: ${{ secrets.STEAM_API_KEY }}
+          # get from https://steamcommunity.com/dev/apikey
           STEAM_USER_ID: ${{ secrets.STEAM_USER_ID }}
-          NOTION_DATABASE_API_KEY: ${{ secrets.NOTION_API_KEY }}
+          # get from your steam profile https://steamcommunity.com/profiles/{STEAM_USER_ID}
+          NOTION_API_KEY: ${{ secrets.NOTION_API_KEY }}
+          # https://developers.notion.com/docs/create-a-notion-integration
           NOTION_DATABASE_ID: ${{ secrets.NOTION_DATABASE_ID }}
-          #OPTIONAL
+          # https://developers.notion.com/reference/retrieve-a-database
           include_played_free_games: ${{secrets.include_played_free_games}}
+          #set to 'true' by default
           enable_item_update: ${{secrets.enable_item_update}}
+          #set to 'true' by default
           enable_filter: ${{secrets.enable_filter}}
+          #set to 'false' by default
 ```
 
 | 名称                      | 数据类型 | 描述                       |
@@ -83,7 +89,7 @@ github action中所用到了如下变量：
 STEAM_API_KEY = os.environ.get("STEAM_API_KEY")
 STEAM_USER_ID = os.environ.get("STEAM_USER_ID")
 NOTION_DATABASE_API_KEY = os.environ.get("NOTION_DATABASE_API_KEY")
-NOTION_DATABASE_ID = "63b4fd39830b4946b1c91d65b90a7848"
+NOTION_DATABASE_ID = "NOTION_DATABASE_ID"
 # OPTIONAL
 include_played_free_games = 'true'
 enable_item_update = 'true'
@@ -96,7 +102,7 @@ enable_filter = ‘false'
 
 ```python
 # CONFIG
-STEAM_API_KEY = 'xxxx'
+STEAM_API_KEY = 'xxxx' 
 STEAM_USER_ID = 'xxxx'
 NOTION_DATABASE_API_KEY = 'xxxx'
 NOTION_DATABASE_ID = "xxxx"

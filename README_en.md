@@ -39,15 +39,20 @@ click fork.
 github action workflowed used these variables.
 
 ```yaml
-        env:
           STEAM_API_KEY: ${{ secrets.STEAM_API_KEY }}
+          # get from https://steamcommunity.com/dev/apikey
           STEAM_USER_ID: ${{ secrets.STEAM_USER_ID }}
+          # get from your steam profile https://steamcommunity.com/profiles/{STEAM_USER_ID}
           NOTION_API_KEY: ${{ secrets.NOTION_API_KEY }}
+          # https://developers.notion.com/docs/create-a-notion-integration
           NOTION_DATABASE_ID: ${{ secrets.NOTION_DATABASE_ID }}
-          #OPTIONAL
+          # https://developers.notion.com/reference/retrieve-a-database
           include_played_free_games: ${{secrets.include_played_free_games}}
+          #set to 'true' by default
           enable_item_update: ${{secrets.enable_item_update}}
+          #set to 'true' by default
           enable_filter: ${{secrets.enable_filter}}
+          #set to 'false' by default
 ```
 
 | name                      | type   | description                                    |
