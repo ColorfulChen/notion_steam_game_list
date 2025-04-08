@@ -1,184 +1,226 @@
-# notion_steam_game_list
+# 🎮 Notion Steam Game List
 
-Language: English/[中文](./README.md)
+🌐 **Languages**: [English](./README_en.md) / [中文](./README.md)
 
-## description
+---
 
-this project use notion integration to imported a steam user's game library to notion database via steam api and notion api.
+## 📖 Description
 
-You can also automated this workflow with GithubAction to daily up your notion pages!
+This project allows you to import a specified Steam user's public game library data into a specified Notion database using the Steam API. Additionally, you can automate updates to your database via **GitHub Actions**.
 
-the resultis as follows:
+The table format in Notion will look like this:
 
-![1724727271538](./image/README_zh_cn/1724727271538.png)
+![Notion Table Example](./image/README_zh_cn/1724727271538.png)
 
-import these data：
+### 📊 Imported Data Fields:
 
-| name                        | type   |
-| --------------------------- | ------ |
-| name                        | title  |
-| playtime(h)                 | number |
-| last play                   | date   |
-| store url                   | url    |
-| game logo                   | image  |
-| game cover                  | image  |
-| completion                  | number |
-| achieved achievements count | number |
-| total achievements count    | number |
+| Field Name       | Data Type |
+| ----------------- | --------- |
+| 🎮 Game Name      | `title`   |
+| ⏱️ Playtime (h)   | `number`  |
+| 📅 Last Played    | `date`    |
+| 🔗 Store Link     | `url`     |
+| 🖼️ Game Logo      | `image`   |
+| 🖼️ Game Cover     | `image`   |
+| ✅ Completion     | `number`  |
+| 🏆 Achieved Achievements | `number` |
+| 🏅 Total Achievements | `number` |
 
-## Automated with Github Action
+---
 
-### Fork this repository
+## 🚀 Automate with GitHub Actions
 
-click fork.
+### 1️⃣ **Fork this repository**
 
-![1724727797319](./image/README_zh_cn/1724727797319.png)
+Click the **Fork** button on the repository page:
 
-### Configure variables
+![Fork Example](./image/README_zh_cn/1724727797319.png)
 
-github action workflowed used these variables.
+---
+### 2️⃣ **Ceate a notion database with these data field**
+
+Ensure your Notion database includes the following fields:
+
+| Field Name               | Data Type |
+| ------------------------ | --------- |
+| `name`                   | `title`   |
+| `playtime`               | `number`  |
+| `last play`              | `date`    |
+| `store url`              | `url`     |
+| `completion`             | `number`  |
+| `achieved achievements`  | `number`  |
+| `total achievements`     | `number`  |
+
+
+
+### 3️⃣ **Configure GitHub Action Variables**
+
+GitHub Actions require the following variables to be set up:
 
 ```yaml
-          STEAM_API_KEY: ${{ secrets.STEAM_API_KEY }}
-          # get from https://steamcommunity.com/dev/apikey
-          STEAM_USER_ID: ${{ secrets.STEAM_USER_ID }}
-          # get from your steam profile https://steamcommunity.com/profiles/{STEAM_USER_ID}
-          NOTION_API_KEY: ${{ secrets.NOTION_API_KEY }}
-          # https://developers.notion.com/docs/create-a-notion-integration
-          NOTION_DATABASE_ID: ${{ secrets.NOTION_DATABASE_ID }}
-          # https://developers.notion.com/reference/retrieve-a-database
-          include_played_free_games: ${{secrets.include_played_free_games}}
-          #set to 'true' by default
-          enable_item_update: ${{secrets.enable_item_update}}
-          #set to 'true' by default
-          enable_filter: ${{secrets.enable_filter}}
-          #set to 'false' by default
+env:
+  STEAM_API_KEY: ${{ secrets.STEAM_API_KEY }}
+  # Get from https://steamcommunity.com/dev/apikey
+  STEAM_USER_ID: ${{ secrets.STEAM_USER_ID }}
+  # Get from your Steam profile: https://steamcommunity.com/profiles/{STEAM_USER_ID}
+  NOTION_API_KEY: ${{ secrets.NOTION_API_KEY }}
+  # https://developers.notion.com/docs/create-a-notion-integration
+  NOTION_DATABASE_ID: ${{ secrets.NOTION_DATABASE_ID }}
+  # https://developers.notion.com/reference/retrieve-a-database
+  include_played_free_games: ${{ secrets.include_played_free_games }}
+  # Set to 'true' by default
+  enable_item_update: ${{ secrets.enable_item_update }}
+  # Set to 'true' by default
+  enable_filter: ${{ secrets.enable_filter }}
+  # Set to 'false' by default
 ```
 
-| name                      | type   | description                                    |
-| ------------------------- | ------ | ---------------------------------------------- |
-| STEAM_API_KEY             | string | steam api key                                  |
-| STEAM_USER_ID             | string | steam user id you want fetch data from         |
-| NOTION_API_KEY   | string | notion api key                                 |
-| NOTION_DATABASE_ID        | string | the notion data base id you wanted to imported |
-| include_played_free_games | string | whether to include free games                  |
-| enable_item_update        | string | whether to include item update                 |
-| enable_filter             | string | whether to include item filter                 |
+| Variable Name              | Data Type | Description                     |
+| -------------------------- | --------- | ------------------------------- |
+| `STEAM_API_KEY`            | `string`  | Steam API key                   |
+| `STEAM_USER_ID`            | `string`  | Steam user ID                   |
+| `NOTION_API_KEY`           | `string`  | Notion API key                  |
+| `NOTION_DATABASE_ID`       | `string`  | Notion database ID              |
+| `include_played_free_games`| `string`  | Include free games (`'true'/'false'`)(quoto included) |
+| `enable_item_update`       | `string`  | Enable item updates (`'true'/'false'`) |
+| `enable_filter`            | `string`  | Enable filters (`true/false`)   |
 
-The detailed of these variables and what they do are at next chpter.(deployed local -> modify config)
+💡 **Note**: Add these variables in your forked repository under `Settings -> Secrets and Variables -> Actions -> New repository secret`.
 
-And you should create and connect your database to the notion intergration, Details are at [Build your first integration (notion.com)](https://developers.notion.com/docs/create-a-notion-integration), and in next chpater.
+![Secrets Example](./image/README_zh_cn/1724728563407.png)
 
-open the repository you just forked, press settings->Secrets and Variables->Actions->New repository screct，add these variables. note that include_played_free_games，enable_item_update，enable_filter variable should be set to 'true' or 'false'
+---
 
-![1724728563407](./image/README_zh_cn/1724728563407.png)
 
-### Done！
 
-This should work now! I set github action to run daily at 12am UTC time, you can change that at main.yml. If you want to trigger mannually, click Actions->Update Notion with Steam Data->Run workflow！
+### 4️⃣ **Done!**
 
-![1724728824789](./image/README_zh_cn/1724728824789.png)
+Once configured, GitHub Actions will automatically update your Notion database daily at **12:00 UTC**. You can also manually trigger the workflow by navigating to:
 
-## Deploy Locally
+**Actions -> Update Notion with Steam Data -> Run workflow**
 
-### modify config
+![Run Workflow Example](./image/README_zh_cn/1724728824789.png)
 
-Modify configuration in main.py, the configurations are as follows:
+---
+
+## 🖥️ Local Deployment
+
+### 1️⃣ **Modify Configuration Parameters**
+
+Update the configuration parameters in `main.py`:
 
 ```python
 # CONFIG
 STEAM_API_KEY = os.environ.get("STEAM_API_KEY")
 STEAM_USER_ID = os.environ.get("STEAM_USER_ID")
-NOTION_API_KEY = os.environ.get("NOTION_API_KEY")
-NOTION_DATABASE_ID = "63b4fd39830b4946b1c91d65b90a7848"
+NOTION_DATABASE_API_KEY = os.environ.get("NOTION_DATABASE_API_KEY")
+NOTION_DATABASE_ID = "NOTION_DATABASE_ID"
 # OPTIONAL
 include_played_free_games = 'true'
 enable_item_update = 'true'
-enable_filter = ‘false'
+enable_filter = 'false'
 ```
 
-You should replace these config with your own api keys.
-
-After Modified the configuration should looks like this:
+Replace the placeholders with your own keys:
 
 ```python
 # CONFIG
-STEAM_API_KEY = 'xxxx'
-STEAM_USER_ID = 'xxxx'
-NOTION_API_KEY = 'xxxx'
-NOTION_DATABASE_ID = "xxxx"
+STEAM_API_KEY = 'your_steam_api_key'
+STEAM_USER_ID = 'your_steam_user_id'
+NOTION_DATABASE_API_KEY = 'your_notion_api_key'
+NOTION_DATABASE_ID = 'your_notion_database_id'
 # OPTIONAL
 include_played_free_games = 'true'
 enable_item_update = 'false'
 enable_filter = 'true'
 ```
 
-#### STEAM_API_KEY
+---
 
-You can get it from https://steamcommunity.com/dev/apikey
+### 2️⃣ **Install Required Libraries**
 
-#### STEAM_USER_ID
+Ensure you have Python 3.6+ installed. If not, download it from the [Python official website](http://www.python.org).
 
-The steam user you want to get steam game library data from, The user is could get from steam profile permanent link, the link looks like this:
+Install the required library:
 
-[https://steamcommunity.com/profiles/{STEAM_USER_ID}](https://steamcommunity.com/profiles/%7BSTEAM_USER_ID%7D)
-
-#### NOTION_API_KEY
-
-NOTION integration apikey，you should create a intergration, and create a connection at the page where your database at.
-
-follows the instruction as notion develop documents shows in "getting start" chapter [Build your first integration (notion.com)](https://developers.notion.com/docs/create-a-notion-integration)
-
-This “API secret”  the document refer to  is NOTION_API_KEY.
-
-#### NOTION_DATABASE_ID
-
-the database you want to import to's id, before import you should make sure this database's page is added to connection with the itergration you created.
-
-the program search and modify the elements based on the name and data type of the database, so you have to ensure the database you created has the exact same name and data type as below:
-
-- name(title)
-- playtime(number)
-- last play(date)
-- store url(url)
-- compeletion(number)
-- total achievements(number)
-- achieved achievements(number)
-
-the database id could get from its share link.
-
-open the database as a full page, and click share->copy link, this link's format is as follows:
-
-[https://www.notion.so/{workspacename}/{database_id}?v={viewID}](https://www.notion.so/%7Bworkspacename%7D/%7Bdatabase_id%7D?v=%7BviewID%7D)
-
-this {database_id} is the database id.
-
-#### include_played_free_games（OPTIONAL）
-
-whether to include free games.
-
-#### enable_item_update（OPTIONAL）
-
-when set to True, the program will updated repeated item in database.
-
-when set to False, the program will skip repeated item in database.
-
-#### enable_filter（OPTIONAL）
-
-whether to use is_record() function to filter added game. you could modified on your own.
-
-### install requests library
-
-assume you have already installed python environment.
-
-if not install python 3.6+ at www.python.org
-
-```shell
+```bash
 pip install requests
 ```
 
-### run the program
+---
 
-```
+### 3️⃣ **Run the Program**
+
+Run the program locally:
+
+```bash
 python main.py
 ```
+
+---
+
+## 🔑 Configuration Details
+
+### 🔑 **STEAM_API_KEY**
+
+Get your Steam API key from:  
+[Steam API Key Registration](https://steamcommunity.com/dev/apikey)
+
+---
+
+### 🔑 **STEAM_USER_ID**
+
+Find your Steam User ID from your profile URL:  
+`https://steamcommunity.com/profiles/{STEAM_USER_ID}`
+
+---
+
+### 🔑 **NOTION_API_KEY**
+
+Create a Notion integration and get your API key:  
+[Notion Integration Guide](https://developers.notion.com/docs/create-a-notion-integration)
+
+---
+
+### 🔑 **NOTION_DATABASE_ID**
+
+Find your Notion database ID by copying the link to your database:  
+`https://www.notion.so/{workspace_name}/{database_id}?v={view_id}`
+
+---
+
+### 🔑 **Optional Parameters**
+
+- `include_played_free_games`: Include free games (`true/false`)
+- `enable_item_update`: Enable item updates (`true/false`)
+- `enable_filter`: Enable filters (`true/false`)
+
+---
+
+## 📦 Database Requirements
+
+Ensure your Notion database includes the following fields:
+
+| Field Name               | Data Type |
+| ------------------------ | --------- |
+| `name`                   | `title`   |
+| `playtime`               | `number`  |
+| `last play`              | `date`    |
+| `store url`              | `url`     |
+| `completion`             | `number`  |
+| `achieved achievements`  | `number`  |
+| `total achievements`     | `number`  |
+
+---
+
+## 🛠️ Troubleshooting
+
+If you encounter any issues, ensure:
+
+1. All required variables are correctly set.
+2. Your Notion database is properly configured and linked to your integration.
+3. Python and required libraries are installed.
+
+---
+
+🎉 **Enjoy automating your Notion Steam game list!**
