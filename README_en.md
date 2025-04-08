@@ -113,7 +113,7 @@ Update the configuration parameters in `main.py`:
 # CONFIG
 STEAM_API_KEY = os.environ.get("STEAM_API_KEY")
 STEAM_USER_ID = os.environ.get("STEAM_USER_ID")
-NOTION_DATABASE_API_KEY = os.environ.get("NOTION_DATABASE_API_KEY")
+NOTION_API_KEY = os.environ.get("NOTION_API_KEY")
 NOTION_DATABASE_ID = "NOTION_DATABASE_ID"
 # OPTIONAL
 include_played_free_games = 'true'
@@ -127,7 +127,7 @@ Replace the placeholders with your own keys:
 # CONFIG
 STEAM_API_KEY = 'your_steam_api_key'
 STEAM_USER_ID = 'your_steam_user_id'
-NOTION_DATABASE_API_KEY = 'your_notion_api_key'
+NOTION_API_KEY = 'your_notion_api_key'
 NOTION_DATABASE_ID = 'your_notion_database_id'
 # OPTIONAL
 include_played_free_games = 'true'
