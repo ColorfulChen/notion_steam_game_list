@@ -1,3 +1,4 @@
+import argparse
 import requests
 import time
 import os
@@ -23,12 +24,6 @@ enable_filter = os.environ.get("enable_filter") or 'false'
 # MISC
 MAX_RETRIES = 20
 RETRY_DELAY = 2
-logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger("")
-file_handler = logging.FileHandler("app.log", encoding="utf-8")
-file_handler.setLevel(logging.INFO)
-logger.addHandler(file_handler)
-
 
 def send_request_with_retry(
     url, headers=None, json_data=None, retries=MAX_RETRIES, method="patch"
@@ -323,6 +318,29 @@ def get_achievements_count(game):
 
 
 if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--debug', action='store_true', help='启用调试日志输出')
+    args = parser.parse_args()
+
+    # 配置日志
+    logger = logging.getLogger("")
+    logger.setLevel(logging.INFO)
+
+    # 移除所有现有处理器
+    for handler in logger.handlers[:]:
+        logger.removeHandler(handler)
+
+    if args.debug:
+        # 添加文件处理器
+        file_handler = logging.FileHandler("app.log", encoding="utf-8")
+        file_handler.setLevel(logging.INFO)
+        logger.addHandler(file_handler)
+        
+        # 添加控制台处理器
+        console_handler = logging.StreamHandler()
+        console_handler.setLevel(logging.INFO)
+        logger.addHandler(console_handler)
+
     owned_game_data = get_owned_game_data_from_steam()
 
     for game in owned_game_data["response"]["games"]:
