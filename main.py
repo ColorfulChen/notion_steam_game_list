@@ -40,12 +40,12 @@ def send_request_with_retry(
             response.raise_for_status()  # 如果响应状态码不是200系列，则抛出HTTPError异常
             return response
         except requests.exceptions.RequestException as e:
-            logger.error(f"Request Exception occurred: <{e}> Retring....")
+            logger.error(f"Request Exception occurred: <{e}>.Error Message:{response.text},Retring....")
             retries -= 1
             if retries > 0:
                 time.sleep(RETRY_DELAY)  # 等待一段时间后再重试
             else:
-                logger.error("Max retries exceeded. Giving up.")
+                logger.error(f"Max retries exceeded.Error Message:{response.text},Giving up.")
                 return {}
 
 
@@ -65,7 +65,7 @@ def get_owned_game_data_from_steam():
         logger.info("fetching data success!")
         return response.json()
     except Exception as e:
-        logger.error(f"Failed to send request: {e}")
+        logger.error(f"Failed to send request: {e},Error Message:{response.text}")
 
 
 def query_achievements_info_from_steam(game):
@@ -151,7 +151,7 @@ def add_item_to_notion_database(game, achievements_info):
         logger.info(f"{game['name']} added!")
         return response.json()
     except Exception as e:
-        logger.error(f"Failed to send request: {e}.")
+        logger.error(f"Failed to send request: {e}.Error Message:{response.text}")
 
 
 def query_item_from_notion_database(game):
@@ -171,7 +171,7 @@ def query_item_from_notion_database(game):
         )
         logger.info(f"query complete!")
     except Exception as e:
-        logger.error(f"Failed to send request: {e}.")
+        logger.error(f"Failed to send request: {e}.Error Message:{response.text}")
     finally:
         return response.json()
 
@@ -233,7 +233,7 @@ def update_item_to_notion_database(page_id, game, achievements_info):
         logger.info(f"{game['name']} updated!")
         return response.json()
     except Exception as e:
-        logger.error(f"Failed to send request: {e}.")
+        logger.error(f"Failed to send request: {e}.Error Message:{response.text}")
 
 
 def database_create(page_id):
@@ -268,7 +268,7 @@ def database_create(page_id):
         )
         return response.json()
     except Exception as e:
-        logger.error(f"Failed to send request: {e}")
+        logger.error(f"Failed to send request: {e}.Error Message:{response.text}")
 
 
 # MISC
