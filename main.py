@@ -81,10 +81,10 @@ def query_achievements_info_from_steam(game):
         return response.json()
     except requests.exceptions.RequestException as e:
         # 捕获所有requests库抛出的异常（如连接错误、超时、HTTP错误等）
-        logger.error(f"Request failed for {game['name']}: {str(e)}")
+        logger.error(f"Request failed for {game['name']}: {str(e)}.Error message{response.text}")
     except ValueError as e:
         # 捕获JSON解析错误（如返回非JSON数据）
-        logger.error(f"Failed to parse JSON response for {game['name']}: {str(e)}")
+        logger.error(f"Failed to parse JSON response for {game['name']}: {str(e)}.Error message{response.text}")
 
     return None
 
