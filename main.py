@@ -393,8 +393,7 @@ if __name__ == "__main__":
                     ]
                     == achievements_info["total"]
                     and queryed_item["results"][0]["properties"]["achieved achievements"][
-                        "review"
-                    ] == review_text
+                        "review"]["rich_text"]["text"]["content"] == review_text
                 ):
                     logger.info(f"{game['name']} does not need to update! Skipping!")
                 else:
