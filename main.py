@@ -367,6 +367,7 @@ if __name__ == "__main__":
         achievements_info = {}
         achievements_info = get_achievements_count(game)
         review_text = get_steam_review_info(game["appid"], STEAM_USER_ID)
+        logger.info(f"{game['name']} ' review is {review_text}")
 
         if "rtime_last_played" not in game:
             logger.info(f"{game['name']} have no last play time! setting to 0!")
@@ -392,7 +393,7 @@ if __name__ == "__main__":
                         "number"
                     ]
                     == achievements_info["total"]
-                    and review_text != ''
+                    and review_text == ''
                 ):
                     logger.info(f"{game['name']} does not need to update! Skipping!")
                 else:

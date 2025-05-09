@@ -13,6 +13,7 @@ def get_steam_review_info(appid,userid):
             html = response.read().decode('utf-8')
     except Exception as e:
         print(f"请求失败: AppID {appid}, 错误: {e}")
+        return ''
 
     soup = BeautifulSoup(html, 'html.parser')
     review_text = ''
