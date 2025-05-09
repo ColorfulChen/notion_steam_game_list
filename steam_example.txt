@@ -1,0 +1,64 @@
+[h1] 标题文字 [/h1]
+
+[h2] 标题文字 [/h2]
+
+[h3] 标题文字 [/h3]
+
+[b] 粗体文本 [/b]
+
+[u] 下划线文本 [/u]
+
+[i] 斜体文本 [/i]
+
+[strike] 删除文本 [/strike]
+
+[spoiler] 隐藏文本 [/spoiler]
+
+[noparse] 不解析[b]标签[/b] [/noparse]
+
+[hr][/hr]渲染水平分隔线
+
+[url=store.steampowered.com] 网站链接 [/url]
+粘贴无格式 YouTube URL 以自动生成小部件。 https://www.youtube.com/watch?v=tax4e4hBBZc
+
+粘贴 Steam 商店页面 URL 以自动生成一个小部件。 https://store.steampowered.com/app/323190/
+
+粘贴 Steam 创意工坊或其他用户生成内容 URL，以自动生成小部件。 https://steamcommunity.com/sharedfiles/filedetails/?id=157328145
+
+[list]
+    [*]项目符号列表
+    [*]项目符号列表
+    [*]项目符号列表
+[/list]
+
+
+[olist]
+    [*]有序列表
+    [*]有序列表
+    [*]有序列表
+[/olist]
+
+[quote=author] 引用文本 [/quote]
+
+[code] 代码格式 [/code]
+
+
+表格格式：
+[table]
+    [tr]
+        [th]Name[/th]
+        [th]Age[/th]
+    [/tr]
+    [tr]
+        [td]John[/td]
+        [td]65[/td]
+    [/tr]
+    [tr]
+        [td]Gitte[/td]
+        [td]40[/td]
+    [/tr]
+    [tr]
+        [td]Sussie[/td]
+        [td]19[/td]
+    [/tr]
+[/table]

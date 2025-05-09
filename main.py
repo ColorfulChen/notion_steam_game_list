@@ -3,6 +3,7 @@ import requests
 import time
 import os
 import logging
+from features.review import get_steam_review_info
 
 # CONFIG
 STEAM_API_KEY = os.environ.get("STEAM_API_KEY")
@@ -90,7 +91,7 @@ def query_achievements_info_from_steam(game):
 
 
 # notionapi
-def add_item_to_notion_database(game, achievements_info):
+def add_item_to_notion_database(game, achievements_info, review_text):
     url = "https://api.notion.com/v1/pages"
     headers = {
         "Authorization": f"Bearer {NOTION_API_KEY}",
@@ -139,6 +140,15 @@ def add_item_to_notion_database(game, achievements_info):
                 "type": "number",
                 "number": achieved_achievements,
             },
+            "review": {
+                "type": "rich_text",
+                "rich_text": [
+                    {
+                        "type": "text",
+                        "text": {"content": review_text},
+                    }
+                ],
+            },
         },
         "cover": {"type": "external", "external": {"url": f"{cover_url}"}},
         "icon": {"type": "external", "external": {"url": f"{icon_url}"}},
@@ -176,7 +186,7 @@ def query_item_from_notion_database(game):
         return response.json()
 
 
-def update_item_to_notion_database(page_id, game, achievements_info):
+def update_item_to_notion_database(page_id, game, achievements_info, review_text):
     url = f"https://api.notion.com/v1/pages/{page_id}"
     headers = {
         "Authorization": f"Bearer {NOTION_API_KEY}",
@@ -220,6 +230,15 @@ def update_item_to_notion_database(page_id, game, achievements_info):
             "achieved achievements": {
                 "type": "number",
                 "number": achieved_achievements,
+            },
+            "review": {
+                "type": "rich_text",
+                "rich_text": [
+                    {
+                        "type": "text",
+                        "text": {"content": review_text},
+                    }
+                ],
             },
         },
         "cover": {"type": "external", "external": {"url": f"{cover_url}"}},
@@ -347,6 +366,8 @@ if __name__ == "__main__":
         is_add = True
         achievements_info = {}
         achievements_info = get_achievements_count(game)
+        review_text = get_steam_review_info(game["appid"], STEAM_USER_ID)
+
         if "rtime_last_played" not in game:
             logger.info(f"{game['name']} have no last play time! setting to 0!")
             game["rtime_last_played"] = 0
@@ -371,15 +392,18 @@ if __name__ == "__main__":
                         "number"
                     ]
                     == achievements_info["total"]
+                    and queryed_item["results"][0]["properties"]["achieved achievements"][
+                        "review"
+                    ] == review_text
                 ):
                     logger.info(f"{game['name']} does not need to update! Skipping!")
                 else:
                     logger.info(f"{game['name']} need to update! Updating!")
                     update_item_to_notion_database(
-                        queryed_item["results"][0]["id"], game, achievements_info
+                        queryed_item["results"][0]["id"], game, achievements_info, review_text
                     )
             else:
                 logger.info(f"{game['name']} already exists! skipping!")
         else:
             logger.info(f"{game['name']} does not exist! creating new item!")
-            add_item_to_notion_database(game, achievements_info)
+            add_item_to_notion_database(game, achievements_info, review_text)
