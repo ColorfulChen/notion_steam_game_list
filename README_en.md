@@ -4,6 +4,8 @@
 
 ---
 
+2025.5.11 Update：Added the functionality to fetch Steam reviews, which will now fetch user reviews from Steam into the Notion database. The previous version will no longer work and requires adding a "review" (text) field to the database in order to work.
+
 ## 📖 Description
 
 This project allows you to import a specified Steam user's public game library data into a specified Notion database using the Steam API. Additionally, you can automate updates to your database via **GitHub Actions**.
@@ -25,6 +27,7 @@ The table format in Notion will look like this:
 | ✅ Completion     | `number`  |
 | 🏆 Achieved Achievements | `number` |
 | 🏅 Total Achievements | `number` |
+| ✍️ review | `text` |
 
 ---
 
@@ -50,6 +53,7 @@ Ensure your Notion database includes the following fields:
 | `completion`             | `number`  |
 | `achieved achievements`  | `number`  |
 | `total achievements`     | `number`  |
+| `review`     | `text`  |
 
 
 
@@ -210,6 +214,7 @@ Ensure your Notion database includes the following fields:
 | `completion`             | `number`  |
 | `achieved achievements`  | `number`  |
 | `total achievements`     | `number`  |
+| `review`     | `text`  |
 
 ---
 

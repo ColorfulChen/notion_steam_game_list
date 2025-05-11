@@ -4,6 +4,8 @@
 
 ---
 
+2025.5.11更新：加入了steam评测抓取的功能，现在会抓取steam用户的评测到steam数据库中。之前的action项目会无法运行，需要在数据库中加入review（文本）字段。
+
 ## 📖 描述
 
 该项目允许您通过 Steam API 将指定用户的 Steam 公开游戏库数据导入到指定的 Notion 数据库中。此外，您还可以通过 **GitHub Actions** 实现数据库的自动更新。
@@ -25,6 +27,7 @@
 | ✅ 完成度        | `number` |
 | 🏆 已完成成就数  | `number` |
 | 🏅 总成就数      | `number` |
+| ✍️ 评测      | `text` |
 
 ---
 
@@ -51,6 +54,7 @@
 | `completion`          | `number` |
 | `achieved achievements` | `number` |
 | `total achievements`  | `number` |
+| `review`  | `text` |
 
 ---
 
@@ -209,6 +213,7 @@ python main.py
 | `completion`          | `number` |
 | `achieved achievements` | `number` |
 | `total achievements`  | `number` |
+| `review`  | `text` |
 
 ---
 

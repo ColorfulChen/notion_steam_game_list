@@ -12,7 +12,7 @@ def get_steam_review_info(appid,userid):
         with request.urlopen(req, timeout=10) as response:
             html = response.read().decode('utf-8')
     except Exception as e:
-        print(f"请求失败: AppID {appid}, 错误: {e}")
+        #print(f"请求失败: AppID {appid}, 错误: {e}")
         return ''
 
     soup = BeautifulSoup(html, 'html.parser')
@@ -23,6 +23,7 @@ def get_steam_review_info(appid,userid):
         if review_text_element:
             review_text = review_text_element.get_text(strip=True)
     except Exception as e:
-        print(f"游戏名提取失败: AppID {appid}, 错误: {e}")
+        #print(f"游戏名提取失败: AppID {appid}, 错误: {e}")
+        return ''
 
     return review_text
