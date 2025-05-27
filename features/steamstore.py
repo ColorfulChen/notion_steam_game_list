@@ -65,13 +65,13 @@ def get_steam_store_info(appid):
     return metainfo
 
 def constract_notion_multi_select_property(tags):
-    color = ['blue','brown','gray','green','orange','pink','purple','red','yellow']
+    #color = ['blue','brown','gray','green','orange','pink','purple','red','yellow']
     options = []
 
     for tag in tags:
         option = {}
         option['name'] = tag
-        option['color'] = color[hash(tag) % len(color)]
+        #option['color'] = color[hash(tag) % len(color)]
         options.append(option)
 
     return options
