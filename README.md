@@ -4,6 +4,7 @@
 
 ---
 
+
 2025.5.27更新：加入了游戏简介和tags，现在会从steam商店爬取游戏简介和tags。之前的action项目会无法运行，需要在数据库中加入info（文本）和tags（Multi-select）字段。
 
 2025.5.11更新：加入了steam评测抓取的功能，现在会抓取steam用户的评测到steam数据库中。之前的action项目会无法运行，需要在数据库中加入review（文本）字段。
@@ -33,6 +34,7 @@
 | 📟 游戏简介      | `text` |
 | 🎨 游戏标签      | `multi-select` |
 
+
 ---
 
 ## 🚀 使用 GitHub Actions 实现自动化
@@ -61,6 +63,7 @@
 | `review`  | `text` |
 | `tags`  | `multi-select` |
 | `info`  | `text` |
+
 
 ---
 

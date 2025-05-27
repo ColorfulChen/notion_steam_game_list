@@ -63,6 +63,7 @@ Ensure your Notion database includes the following fields:
 
 
 
+
 ### 3️⃣ **Configure GitHub Action Variables**
 
 GitHub Actions require the following variables to be set up:
@@ -204,23 +205,6 @@ Find your Notion database ID by copying the link to your database:
 - `include_played_free_games`: Include free games (`true/false`)
 - `enable_item_update`: Enable item updates (`true/false`)
 - `enable_filter`: Enable filters (`true/false`)
-
----
-
-## 📦 Database Requirements
-
-Ensure your Notion database includes the following fields:
-
-| Field Name               | Data Type |
-| ------------------------ | --------- |
-| `name`                   | `title`   |
-| `playtime`               | `number`  |
-| `last play`              | `date`    |
-| `store url`              | `url`     |
-| `completion`             | `number`  |
-| `achieved achievements`  | `number`  |
-| `total achievements`     | `number`  |
-| `review`     | `text`  |
 
 ---
 

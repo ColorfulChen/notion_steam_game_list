@@ -200,6 +200,7 @@ def query_item_from_notion_database(game):
         return response.json()
 
 
+
 def update_item_to_notion_database(page_id, game, achievements_info, review_text, steam_store_data):
     url = f"https://api.notion.com/v1/pages/{page_id}"
     headers = {
