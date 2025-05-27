@@ -4,6 +4,8 @@
 
 ---
 
+2025.5.27 Update：Added the functionality to fetch game info and game tags from steam store. The previous version will no longer work and requires adding a "info" (text) and "tags"(multi-select) field to the database in order to work.
+
 2025.5.11 Update：Added the functionality to fetch Steam reviews, which will now fetch user reviews from Steam into the Notion database. The previous version will no longer work and requires adding a "review" (text) field to the database in order to work.
 
 ## 📖 Description
@@ -28,6 +30,8 @@ The table format in Notion will look like this:
 | 🏆 Achieved Achievements | `number` |
 | 🏅 Total Achievements | `number` |
 | ✍️ review | `text` |
+| 📟 info      | `text` |
+| 🎨 tags      | `multi-select` |
 
 ---
 
@@ -54,6 +58,9 @@ Ensure your Notion database includes the following fields:
 | `achieved achievements`  | `number`  |
 | `total achievements`     | `number`  |
 | `review`     | `text`  |
+| `info`      | `text` |
+| `tags`      | `multi-select` |
+
 
 
 
@@ -198,23 +205,6 @@ Find your Notion database ID by copying the link to your database:
 - `include_played_free_games`: Include free games (`true/false`)
 - `enable_item_update`: Enable item updates (`true/false`)
 - `enable_filter`: Enable filters (`true/false`)
-
----
-
-## 📦 Database Requirements
-
-Ensure your Notion database includes the following fields:
-
-| Field Name               | Data Type |
-| ------------------------ | --------- |
-| `name`                   | `title`   |
-| `playtime`               | `number`  |
-| `last play`              | `date`    |
-| `store url`              | `url`     |
-| `completion`             | `number`  |
-| `achieved achievements`  | `number`  |
-| `total achievements`     | `number`  |
-| `review`     | `text`  |
 
 ---
 
