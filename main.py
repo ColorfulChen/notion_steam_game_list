@@ -4,7 +4,6 @@ import time
 import os
 import logging
 from features.review import get_steam_review_info
-from features.steamstore import get_steam_store_info
 
 # CONFIG
 STEAM_API_KEY = os.environ.get("STEAM_API_KEY")
@@ -92,7 +91,7 @@ def query_achievements_info_from_steam(game):
 
 
 # notionapi
-def add_item_to_notion_database(game, achievements_info, review_text, steam_store_data):
+def add_item_to_notion_database(game, achievements_info, review_text):
     url = "https://api.notion.com/v1/pages"
     headers = {
         "Authorization": f"Bearer {NOTION_API_KEY}",
@@ -150,19 +149,6 @@ def add_item_to_notion_database(game, achievements_info, review_text, steam_stor
                     }
                 ],
             },
-            "info": {
-                "type": "rich_text",
-                "rich_text": [
-                    {
-                        "type": "text",
-                        "text": {"content": steam_store_data["info"]},
-                    }
-                ],
-            },
-            "tags": {
-                "type": "multi_select",
-                "multi_select": steam_store_data['tag']
-            }
         },
         "cover": {"type": "external", "external": {"url": f"{cover_url}"}},
         "icon": {"type": "external", "external": {"url": f"{icon_url}"}},
@@ -200,8 +186,7 @@ def query_item_from_notion_database(game):
         return response.json()
 
 
-
-def update_item_to_notion_database(page_id, game, achievements_info, review_text, steam_store_data):
+def update_item_to_notion_database(page_id, game, achievements_info, review_text):
     url = f"https://api.notion.com/v1/pages/{page_id}"
     headers = {
         "Authorization": f"Bearer {NOTION_API_KEY}",
@@ -255,19 +240,6 @@ def update_item_to_notion_database(page_id, game, achievements_info, review_text
                     }
                 ],
             },
-            "info": {
-                "type": "rich_text",
-                "rich_text": [
-                    {
-                        "type": "text",
-                        "text": {"content": steam_store_data["info"]},
-                    }
-                ],
-            },
-            "tags": {
-                "type": "multi_select",
-                "multi_select": steam_store_data['tag']
-            }
         },
         "cover": {"type": "external", "external": {"url": f"{cover_url}"}},
         "icon": {"type": "external", "external": {"url": f"{icon_url}"}},
@@ -395,7 +367,6 @@ if __name__ == "__main__":
         achievements_info = {}
         achievements_info = get_achievements_count(game)
         review_text = get_steam_review_info(game["appid"], STEAM_USER_ID)
-        steam_store_data = get_steam_store_info(game["appid"])
         logger.info(f"{game['name']} ' review is {review_text}")
 
         if "rtime_last_played" not in game:
@@ -412,12 +383,26 @@ if __name__ == "__main__":
 
         if queryed_item["results"] != []:
             if enable_item_update == "true":
-                logger.info(f"{game['name']} already exists! updating!")
-                update_item_to_notion_database(
-                    queryed_item["results"][0]["id"], game, achievements_info, review_text, steam_store_data
-                )
+                logger.info(f"{game['name']} already exists!")
+                playtime = round(float(game["playtime_forever"]) / 60, 1)
+
+                if (
+                    queryed_item["results"][0]["properties"]["playtime"]["number"]
+                    == playtime
+                    and queryed_item["results"][0]["properties"]["total achievements"][
+                        "number"
+                    ]
+                    == achievements_info["total"]
+                    and review_text == ''
+                ):
+                    logger.info(f"{game['name']} does not need to update! Skipping!")
+                else:
+                    logger.info(f"{game['name']} need to update! Updating!")
+                    update_item_to_notion_database(
+                        queryed_item["results"][0]["id"], game, achievements_info, review_text
+                    )
             else:
                 logger.info(f"{game['name']} already exists! skipping!")
         else:
             logger.info(f"{game['name']} does not exist! creating new item!")
-            add_item_to_notion_database(game, achievements_info, review_text, steam_store_data)
+            add_item_to_notion_database(game, achievements_info, review_text)
