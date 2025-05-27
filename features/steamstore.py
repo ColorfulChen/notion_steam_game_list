@@ -48,7 +48,7 @@ def get_steam_store_info(appid):
     tags = []
     try:
         tag_container = soup.find_all('a', {'class': 'app_tag'})
-        for tag in tag_container[:8]:
+        for tag in tag_container:
             tag_text = tag.get_text(strip=True)
             if tag_text:
                 tags.append(tag_text)
@@ -65,9 +65,6 @@ def get_steam_store_info(appid):
     return metainfo
 
 def constract_notion_multi_select_property(tags):
-    """
-    构造 Notion 的多选属性格式
-    """
     color = ['blue','brown','gray','green','orange','pink','purple','red','yellow']
     options = []
 
@@ -78,12 +75,3 @@ def constract_notion_multi_select_property(tags):
         options.append(option)
 
     return options
-
-if __name__ == "__main__":
-    appid = 3672730
-    store_info = get_steam_store_info(appid)
-    if store_info:
-        print("游戏简介:", store_info['info'])
-        print("游戏标签:", store_info['tag'])
-    else:
-        print("无法获取游戏信息")
