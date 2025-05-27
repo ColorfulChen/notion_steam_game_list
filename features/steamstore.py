@@ -26,12 +26,17 @@ def get_steam_store_info(appid):
     # 创建请求
     req = request.Request(url, headers=headers)
 
+    metainfo = {
+        'info': '',
+        'tag': []
+    }
+
     try:
         with request.urlopen(req, timeout=10) as response:
             html = response.read().decode('utf-8')
     except Exception as e:
         print(f"请求失败: AppID {appid}, 错误: {e}")
-        return None
+        return metainfo
 
     soup = BeautifulSoup(html, 'html.parser')
 
@@ -43,6 +48,7 @@ def get_steam_store_info(appid):
             info_text = info_elements[0].get_text(strip=True)
     except Exception as e:
         print(f"简介提取失败: AppID {appid}, 错误: {e}")
+        return metainfo
 
     # tags
     tags = []
@@ -54,6 +60,7 @@ def get_steam_store_info(appid):
                 tags.append(tag_text)
     except Exception as e:
         print(f"标签提取失败: AppID {appid}, 错误: {e}")
+        return metainfo
 
     options = constract_notion_multi_select_property(tags)
 
