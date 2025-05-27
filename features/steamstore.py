@@ -55,9 +55,35 @@ def get_steam_store_info(appid):
     except Exception as e:
         print(f"标签提取失败: AppID {appid}, 错误: {e}")
 
+    options = constract_notion_multi_select_property(tags)
+
     metainfo = {
         'info': info_text,
-        'tag': tags
+        'tag': options
     }
 
     return metainfo
+
+def constract_notion_multi_select_property(tags):
+    """
+    构造 Notion 的多选属性格式
+    """
+    color = ['blue','brown','gray','green','orange','pink','purple','red','yellow']
+    options = []
+
+    for tag in tags:
+        option = {}
+        option['name'] = tag
+        option['color'] = color[hash(tag) % len(color)]
+        options.append(option)
+
+    return options
+
+if __name__ == "__main__":
+    appid = 3672730
+    store_info = get_steam_store_info(appid)
+    if store_info:
+        print("游戏简介:", store_info['info'])
+        print("游戏标签:", store_info['tag'])
+    else:
+        print("无法获取游戏信息")
