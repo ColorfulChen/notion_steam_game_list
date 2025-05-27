@@ -161,9 +161,7 @@ def add_item_to_notion_database(game, achievements_info, review_text, steam_stor
             },
             "tags": {
                 "type": "multi_select",
-                "multi_select": {
-                    "options": steam_store_data['tag']
-                }
+                "multi_select": steam_store_data['tag']
             }
         },
         "cover": {"type": "external", "external": {"url": f"{cover_url}"}},
