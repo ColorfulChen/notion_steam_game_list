@@ -39,4 +39,4 @@ jobs:
           #set to 'true' by default
           enable_filter: ${{secrets.enable_filter}}
           #set to 'false' by default
-        run: python main.py
+        run: python main.py --debug
